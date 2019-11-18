@@ -1,6 +1,5 @@
 #include "CamadaFisica.h"
 
-
 ///////////////////////////////////////////////
 //		Metodo CamadaFisicaTransmissora		//
 /////////////////////////////////////////////
@@ -39,7 +38,7 @@ int[] CamadaFisicaTransmissoraCodificacaoManchester (int quadro []) {
 	// Assumindo que o clock inicia em 0 e adotada a convenção de G. E. Thomas.
     // Material que mais auxiliou a compreender a lógica manchester:
     // https://github.com/sdht0/manchester-encoding/blob/master/screenshot.jpg
-    int quadroSize = sizeof(quadro);
+    int quadroSize = sizeof(quadro)
     int manchester[2*quadroSize];
 
     for (int i = 0; i < quadroSize; i++) {
@@ -59,6 +58,8 @@ int[] CamadaFisicaTransmissoraCodificacaoManchesterDiferencial (int quadro []) {
 
 int bitXor(int a, int b) {
     return a^b;
+}
+
 }
 
 int bitXnor(int a, int b) {

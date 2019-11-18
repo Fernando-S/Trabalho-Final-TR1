@@ -1,10 +1,9 @@
 #include <iostream>
+
 /*************************************************************
 * NAO ESQUECER DOS COMENTARIOS!
 *********************************************************** */
-/*************************************************************
-* NAO ESQUECER DOS COMENTARIOS!
-*********************************************************** */
+
 ///////////////////////////
 //		Metodo Main		//
 /////////////////////////
@@ -35,4 +34,3 @@ void CamadaDeAplicacaoTransmissora (string mensagem) {
     //chama a proxima camada
     CamadaFisicaTransmissora(quadro);
 }
-
