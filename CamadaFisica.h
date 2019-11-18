@@ -1,15 +1,6 @@
 #ifndef CAMADA_FISICA_H
 #define CAMADA_FISICA_h
 
-/*************************************************************
-* NAO ESQUECER DOS COMENTARIOS!
-*********************************************************** */
-void main (void);
-
-void AplicacaoTransmissora (void);
-
-void CamadaDeAplicacaoTransmissora (string mensagem);
-
 void CamadaFisicaTransmissora (int quadro[]);
 
 int[] CamadaFisicaTransmissoraCodificacaoBinaria (int quadro []);
@@ -32,4 +23,4 @@ void CamadaDeAplicacaoReceptora (int quadro []);
 
 void AplicacaoReceptora (string mensagem);
 
-#endif
+#endif // CAMADA_FISICA_H

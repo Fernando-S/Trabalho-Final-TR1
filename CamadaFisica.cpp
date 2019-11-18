@@ -1,39 +1,5 @@
 #include "CamadaFisica.h"
 
-/*************************************************************
-* NAO ESQUECER DOS COMENTARIOS!
-*********************************************************** */
-///////////////////////////
-//		Metodo Main		//
-/////////////////////////
-void main (void) {
-	AplicacaoTransmissora();
-}
-
-
-///////////////////////////////////////////////
-//		Metodo AplicacaoTransmissora		//
-/////////////////////////////////////////////
-void AplicacaoTransmissora (void) {
-    string mensagem;
-
-    cout << "Digite uma mensagem:" << endl;
-	cin >> mensagem;
-
-	//chama a proxima camada
-	CamadaDeAplicacaoTransmissora(mensagem); //em um exemplo mais realistico, aqui seria dado um SEND do SOCKET
-}
-
-
-///////////////////////////////////////////////////
-//		Metodo CamadaAplicacaoTransmissora		//
-/////////////////////////////////////////////////
-void CamadaDeAplicacaoTransmissora (string mensagem) {
-	//int quadro [] = mensagem //trabalhar com bits!!!
-	//chama a proxima camada
-	CamadaFisicaTransmissora(quadro);
-}
-
 
 ///////////////////////////////////////////////
 //		Metodo CamadaFisicaTransmissora		//
@@ -70,17 +36,34 @@ int[] CamadaFisicaTransmissoraCodificacaoBinaria (int quadro []) {
 //		Metodo CamadaFisicaTransmissoraCodificacaoManchester		//
 /////////////////////////////////////////////////////////////////////
 int[] CamadaFisicaTransmissoraCodificacaoManchester (int quadro []) {
-	//implementacao do algoritmo
-}
+	// Assumindo que o clock inicia em 0 e adotada a convenção de G. E. Thomas.
+    // Material que mais auxiliou a compreender a lógica manchester:
+    // https://github.com/sdht0/manchester-encoding/blob/master/screenshot.jpg
+    int quadroSize = sizeof(quadro);
+    int manchester[2*quadroSize];
 
+    for (int i = 0; i < quadroSize; i++) {
+        manchester[2*i] = bitXnor(0, quadro[i])
+        manchester[2*i +1] = bitXnor(1, quadro[i])
+    }
+
+    return manchester;
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 //		Metodo CamadaFisicaTransmissoraCodificacaoManchesterDiferencial		//
 /////////////////////////////////////////////////////////////////////////////
-int[] CamadaFisicaTransmissoraCodificacaoManchesterDiferencial(int quadro []){
-	//implementacao do algoritmo
+int[] CamadaFisicaTransmissoraCodificacaoManchesterDiferencial (int quadro []) {
+	// Code
 }
 
+int bitXor(int a, int b) {
+    return a^b;
+}
+
+int bitXnor(int a, int b) {
+    return !(a^b);
+}
 
 ///////////////////////////////////////////
 //		Metodo MeioDeTransmissao		//
