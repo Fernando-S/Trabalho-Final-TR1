@@ -127,7 +127,7 @@ void CamadaEnlaceDadosReceptoraControleDeErro (int quadro []) {
 ///////////////////////////////////////////////////////////////////
 //      Metodo CamadaEnlaceDadosReceptoraControleDeFluxo        //
 /////////////////////////////////////////////////////////////////
-void CCamadaEnlaceDadosReceptoraControleDeFluxo (int quadro []) {
+void CamadaEnlaceDadosReceptoraControleDeFluxo (int quadro []) {
     //algum codigo aqui
 }
 
@@ -278,8 +278,7 @@ void CamadaEnlaceDadosTransmissoraControleDeErroBitParidadePar (int quadro []) {
 /////////////////////////////////////////////////////////////////////////////////////
 //      Metodo CamadaEnlaceDadosTransmissoraControledeErroBitParidadeImpar        //
 ///////////////////////////////////////////////////////////////////////////////////
-void CamadaEnlaceDadosTransmissoraControleDeErroBitParidadeImpar (int quadro [])
-{
+void CamadaEnlaceDadosTransmissoraControleDeErroBitParidadeImpar (int quadro []) {
     //implementacao do algoritmo
 }
 
