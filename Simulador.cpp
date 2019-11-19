@@ -13,6 +13,7 @@ using namespace std;
 //    Metodo ConversorDecimalBinario      //
 ///////////////////////////////////////////
 int* ConversorDecimalBinario (string msg) {
+//    cout << msg;
     int n = msg.size();
     int mensagem[n];
     int i = 0, m = 0;
@@ -46,10 +47,11 @@ int* ConversorDecimalBinario (string msg) {
 
     int *ptr;
     ptr = &quadro[0];
-/*    for (m = 0; m < size; m++){
-      cout << ptr[m];
-    }
-*/
+//    for (m = 0; m < size; m++){
+//      cout << ptr[m];
+//    }  //  o for comentado testa a saida do ponteiro
+    ptr = &quadro[0];
+
     return ptr;
     // todo - pensar em como retornar o array
 //        return *quadro;
@@ -60,11 +62,17 @@ int* ConversorDecimalBinario (string msg) {
 /////////////////////////////////////////////////
 void CamadaDeAplicacaoTransmissora (string mensagem) {
     //int quadro [] = mensagem //trabalhar com bits!!!
+
     //chama a proxima camada
-    int m, *ptr = ConversorDecimalBinario(mensagem);
-    for (m = 0; ptr[m] != '\0' ; m++){
+    int *ptr;
+    ptr = ConversorDecimalBinario(mensagem);
+    int m;
+    for(m = 0; m<12; m++){
       cout << ptr[m];
     }
+//    for (m = 0; ptr[m] != '\0' ; m++){
+    //  cout << &ptr[m];
+//    }
 
 
     //CamadaFisicaTransmissora(quadro);
