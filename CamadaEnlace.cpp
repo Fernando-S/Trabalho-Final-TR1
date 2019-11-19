@@ -4,41 +4,9 @@
 //      Metodo CamadaEnlaceDadosTransmissora        //
 /////////////////////////////////////////////////////
 void CamadaEnlaceDadosTransmissora (int quadro []) {
-    //algum codigo aqui
-}
-
-
-/////////////////////////////////////////////////////////////////////
-//      Metodo CamadaEnlaceDadosTransmissoraEnquadramentos        //
-///////////////////////////////////////////////////////////////////
-void CamadaEnlaceDadosTransmissoraEnquadramento (int quadro []) {
-    //algum codigo aqui
-}
-
-
-/////////////////////////////////////////////////////////////////////
-//      Metodo CamadaEnlaceDadosTransmissoraControleDeErro        //
-///////////////////////////////////////////////////////////////////
-void CamadaEnlaceDadosTransmissoraControleDeErro (int quadro []) {
-    //algum codigo aqui
-}
-
-
-//////////////////////////////////////////////////////////////////////
-//      Metodo CamadaEnlaceDadosTransmissoraControleDeFluxo        //
-////////////////////////////////////////////////////////////////////
-void CamadaEnlaceDadosTransmissoraControleDeFluxo (int quadro []) {
-    //algum codigo aqui
-}
-
-
-///////////////////////////////////////////////////////
-//      Metodo CamadaEnlaceDadosTransmissora        //
-/////////////////////////////////////////////////////
-void CamadaEnlaceDadosTransmissora (int quadro []) {
-    CamadaDeEnlaceTransmissoraEnquadramento(quadro);
-    CamadaDeEnlaceTransmissoraControleDeErro(quadro);
-    CamadaDeEnlaceTransmissoraControleDeFluxo(quadro);
+    CamadaEnlaceDadosTransmissoraEnquadramento(quadro);
+    CamadaEnlaceDadosTransmissoraControleDeErro(quadro);
+    CamadaEnlaceDadosTransmissoraControleDeFluxo(quadro);
 
     //chama proxima camada
     CamadaFisicaTransmissora(quadro);
@@ -97,38 +65,6 @@ void CamadaEnlaceDadosTransmissoraEnquadramentoInsercaoDeBits (int quadro []) {
 ///////////////////////////////////////////////////////////////////////////
 void CamadaEnlaceDadosTransmissoraEnquadramentoViolacaoDaCamadaFisica (int quadro []) {
     //implementacao do algoritmo
-}
-
-
-////////////////////////////////////////////////////
-//      Metodo CamadaEnlaceDadosReceptora        //
-//////////////////////////////////////////////////
-void CamadaEnlaceDadosReceptora (int quadro []) {
-    //algum codigo aqui
-}
-
-
-/////////////////////////////////////////////////////////////////
-//      Metodo CamadaEnlaceDadosReceptoraEnquadramento        //
-///////////////////////////////////////////////////////////////
-void CamadaEnlaceDadosReceptoraEnquadramento (int quadro []) {
-    //algum codigo aqui
-}
-
-
-//////////////////////////////////////////////////////////////////
-//      Metodo CamadaEnlaceDadosReceptoraControleDeErro        //
-////////////////////////////////////////////////////////////////
-void CamadaEnlaceDadosReceptoraControleDeErro (int quadro []) {
-    //algum codigo aqui
-}
-
-
-///////////////////////////////////////////////////////////////////
-//      Metodo CamadaEnlaceDadosReceptoraControleDeFluxo        //
-/////////////////////////////////////////////////////////////////
-void CamadaEnlaceDadosReceptoraControleDeFluxo (int quadro []) {
-    //algum codigo aqui
 }
 
 
@@ -200,48 +136,11 @@ void CamadaEnlaceDadosReceptoraEnquadramentoViolacaoDaCamadaFisica(int quadro []
 }
 
 
-///////////////////////////////////////////////////////
-//      Metodo CamadaEnlaceDadosTransmissora        //
-/////////////////////////////////////////////////////
-void CamadaEnlaceDadosTransmissora (int quadro []) {
-    //algum codigo aqui
-}
-
-
-/////////////////////////////////////////////////////////////////////
-//      Metodo CamadaEnlaceDadosTransmissoraEnquadramentos        //
-///////////////////////////////////////////////////////////////////
-void CamadaEnlaceDadosTransmissoraEnquadramento (int quadro []) {
-    //algum codigo aqui
-}
-
-
-/////////////////////////////////////////////////////////////////////
-//      Metodo CamadaEnlaceDadosTransmissoraControleDeErro        //
-///////////////////////////////////////////////////////////////////
-void CamadaEnlaceDadosTransmissoraControleDeErro (int quadro []) {
-    //algum codigo aqui
-}
-
-
 //////////////////////////////////////////////////////////////////////
 //      Metodo CamadaEnlaceDadosTransmissoraControleDeFluxo        //
 ////////////////////////////////////////////////////////////////////
 void CamadaEnlaceDadosTransmissoraControleDeFluxo (int quadro []) {
     //algum codigo aqui
-}
-
-
-///////////////////////////////////////////////////////
-//      Metodo CamadaEnlaceDadosTransmissora        //
-/////////////////////////////////////////////////////
-void CamadaEnlaceDadosTransmissora (int quadro []) {
-    CamadaEnlaceDadosTransmissoraEnquadramento(quadro);
-    CamadaEnlaceDadosTransmissoraControleDeErro(quadro);
-    CamadaEnlaceDadosTransmissoraControleDeFluxo(quadro);
-
-    //chama proxima camada
-    CamadaFisicaTransmissora(quadro);
 }
 
 
@@ -322,30 +221,6 @@ void MeioDeComunicacao (int fluxoBrutoDeBits []) {
 }
 
 
-///////////////////////////////////////////////
-//      Metodo CamadaEnlaceReceptora        //
-/////////////////////////////////////////////
-void CamadaEnlaceDadosReceptora ( int quadro []) {
-    //algum codigo aqui
-}
-
-
-/////////////////////////////////////////////////////////////////
-//      Metodo CamadaEnlaceDadosReceptoraEnquadramento        //
-///////////////////////////////////////////////////////////////
-void CamadaEnlaceDadosReceptoraEnquadramento ( int quadro []) {
-    //algum codigo aqui
-}
-
-
-//////////////////////////////////////////////////////////////////
-//      Metodo CamadaEnlaceDadosReceptoraControleDeErro        //
-////////////////////////////////////////////////////////////////
-void CamadaEnlaceDadosReceptoraControleDeErro ( int quadro []) {
-    //algum codigo aqui
-}
-
-
 ///////////////////////////////////////////////////////////////////
 //      Metodo CamadaEnlaceDadosReceptoraControleDeFluxo        //
 /////////////////////////////////////////////////////////////////
@@ -353,18 +228,6 @@ void CamadaEnlaceDadosReceptoraControleDeFluxo ( int quadro []) {
     //algum codigo aqui
 }
 
-
-////////////////////////////////////////////////////
-//      Metodo CamadaEnlaceDadosReceptora        //
-//////////////////////////////////////////////////
-void CamadaEnlaceDadosReceptora (int quadro []) {
-    CamadaDeEnlaceTransmissoraEnquadramento(quadro);
-    CamadaDeEnlaceTransmissoraControleDeErro(quadro);
-    CamadaDeEnlaceTransmissoraControleDeFluxo(quadro);
-
-    //chama proxima camada
-    CamadaDeAplicacaoReceptora(quadro);
-}
 
 
 //////////////////////////////////////////////////////////////////
