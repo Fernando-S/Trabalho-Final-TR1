@@ -9,7 +9,7 @@ using namespace std;
 
 int main (){
   int size = 10;
-  int quadro[10] = {1, 1, 1, 0, 1, 0, 1, 1, 0, 1};
+  int quadro[10] = {0, 1, 1, 0, 1, 1, 1, 1, 0, 1};
   int manchesterD[2*size];
 	int i;
   int bitAnterior = 1; //bit antes do começo da análise do quadro para codificação
@@ -81,7 +81,7 @@ int main (){
         quadroDecod[0] = 1;
       }
       else if (manchesterD[0] != bitAnterior){
-        quadroDecod[0] = 1;
+        quadroDecod[0] = 0;
       }
     }
     else{
