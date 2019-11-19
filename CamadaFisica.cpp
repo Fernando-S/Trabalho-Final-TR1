@@ -104,7 +104,7 @@ int[] CamadaFisicaTransmissoraCodificacaoManchesterDiferencial (int quadro [], i
     	}
     }
   }
-
+	return manchesterD;
 }
 
 /*
