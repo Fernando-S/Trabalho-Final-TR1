@@ -86,25 +86,40 @@ int[] CamadaFisicaTransmissoraCodificacaoManchesterDiferencial (int quadro [], i
 	// Assumindo que o clock inicia em 0
 	int manchesterD[2*size];
 	int i;
+	int bitAnterior = 1; //bit antes do começo da análise do quadro para codificação
 	for(i = 0; i<size; i++){
 	   manchesterD[2*i] = 0;        //vai ser inicialmente o clock, para fazer as modificações em cima desse vetor
 	   manchesterD[2*i + 1] = 1;
   }
 
 	for (i=0; i<size; i++){
-    if(quadro[i] == 1){						//caso o bit 'i' do quadro seja 1, o sinal permanece igual ao estado anterior
-      manchesterD[2*i] = manchesterD[2*i - 1]; //continuando o ciclo periódico de clock
-      manchesterD[2*i + 1] ^= manchesterD[2*i];
+    if(i == 0){
+      if(quadro[0] == 1){
+        manchesterD[2*i] = bitAnterior;
+        manchesterD[2*i + 1] ^= manchesterD[2*i];
+      }
+      else if (quadro[0] == 0){
+        manchesterD[2*1] ^= bitAnterior;
+        manchesterD[2*i + 1] ^= manchesterD[2*i];
+      }
     }
-
-    else if(quadro[i] == 0){
-      if(i > 0){																			//caso o bit 'i' do quadro seja 0,
-      	manchesterD[2*i] = manchesterD[2*i - 2];			//o estado atual do clock é invertido com relação ao último estado
-      	manchesterD[2*i + 1] = manchesterD[2*i - 1];
-    	}
+    else{
+      if(quadro[i] == 1){
+        manchesterD[2*i] = manchesterD[2*i - 1];
+        manchesterD[2*i + 1] ^= manchesterD[2*i];
+      }
+      else if(quadro[i] == 0){
+        if(i > 0){
+          manchesterD[2*i] = manchesterD[2*i - 2];
+          manchesterD[2*i + 1] = manchesterD[2*i - 1];
+        }
+      }
     }
   }
-	return manchesterD;
+
+	newsize = 2*size;
+
+	MeioDeComunicacao(manchesterD, newsize);
 }
 
 /*
@@ -126,11 +141,14 @@ int bitXnor(int a, int b) {
 // comunicacao, passando de um pontoA (transmissor) para um
 // ponto B (receptor)
 //
-void MeioDeComunicacao (int fluxoBrutoDeBits []) {
+*/
+void MeioDeComunicacao (int fluxoBrutoDeBits [], int size) {
     //OBS IMPORTANTE: trabalhar com BITS e nao com BYTES!!!
-    int fluxoBrutoDeBitsPontoA[], fluxoBrutoDeBitsPontoB[];
-
-    fluxoBrutoDeBitsPontoA = fluxoBrutoDeBits;
+    int fluxoBrutoDeBitsPontoA[size], fluxoBrutoDeBitsPontoB[size];
+		int i;
+		for(i=0; i< size; i++){
+    	fluxoBrutoDeBitsPontoA[i] = fluxoBrutoDeBits[i];
+		}
 
     while (fluxoBrutoDeBitsPontoB.lenght != fluxoBrutoDeBitsPontoA) {
         fluxoBrutoBitsPontoB += fluxoBrutoBitsPontoA; //BITS! Sendo transferidos
@@ -138,7 +156,7 @@ void MeioDeComunicacao (int fluxoBrutoDeBits []) {
     //chama proxima camada
     CamadaFisicaReceptora(fluxoBrutoDeBitsPontoB);
 }
-
+/*
 
 ///////////////////////////////////////////////
 //		Metodo CamadaFisicaTransmissora		//
