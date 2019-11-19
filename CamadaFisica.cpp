@@ -1,5 +1,5 @@
 #include "CamadaFisica.h"
-
+/*
 ///////////////////////////////////////////////
 //		Metodo CamadaFisicaTransmissora		//
 /////////////////////////////////////////////
@@ -69,10 +69,10 @@ int bitXnor(int a, int b) {
 ///////////////////////////////////////////
 //		Metodo MeioDeTransmissao		//
 /////////////////////////////////////////
-/* Este metodo simula a transmissao da informacao no meio de
-* comunicacao, passando de um pontoA (transmissor) para um
-* ponto B (receptor)
-*/
+// Este metodo simula a transmissao da informacao no meio de
+// comunicacao, passando de um pontoA (transmissor) para um
+// ponto B (receptor)
+//
 void MeioDeComunicacao (int fluxoBrutoDeBits []) {
     //OBS IMPORTANTE: trabalhar com BITS e nao com BYTES!!!
     int fluxoBrutoDeBitsPontoA[], fluxoBrutoDeBitsPontoB[];
@@ -153,3 +153,4 @@ void CamadaDeAplicacaoReceptora (int quadro []) {
 void AplicacaoReceptora (string mensagem) {
     cout << "A mensagem recebida foi:" << mensagem << endl;
 }
+ */

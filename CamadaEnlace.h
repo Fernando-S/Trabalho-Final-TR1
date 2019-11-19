@@ -1,6 +1,6 @@
 #ifndef CAMADA_ENLACE_H
 #define CAMADA_ENLACE_H
-
+/*
 void CamadaEnlaceDadosTransmissora (int quadro []);
 
 void CamadaEnlaceDadosTransmissoraEnquadramento (int quadro []);
@@ -82,5 +82,6 @@ void CamadaEnlaceDadosReceptoraControleDeErroBitDeParidadeImpar (int quadro []);
 void CamadaEnlaceDadosReceptoraControleDeErroCRC (int quadro []);
 
 void CamadaEnlaceDadosReceptoraControleDeErroCodigoDeHamming (int quadro []);
+*/
 
 #endif  // CAMADA_ENLACE_H

@@ -1,6 +1,6 @@
 #ifndef CAMADA_FISICA_H
 #define CAMADA_FISICA_h
-
+/*
 void CamadaFisicaTransmissora (int quadro[]);
 
 int[] CamadaFisicaTransmissoraCodificacaoBinaria (int quadro []);
@@ -22,5 +22,5 @@ int[] CamadaFisicaReceptoraCodificacaoManchesterDiferencial (int quadro[]);
 void CamadaDeAplicacaoReceptora (int quadro []);
 
 void AplicacaoReceptora (string mensagem);
-
+*/
 #endif // CAMADA_FISICA_H

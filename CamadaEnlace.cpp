@@ -1,5 +1,5 @@
 #include "CamadaEnlace.h"
-
+/*
 ///////////////////////////////////////////////////////
 //      Metodo CamadaEnlaceDadosTransmissora        //
 /////////////////////////////////////////////////////
@@ -420,3 +420,4 @@ void CamadaEnlaceDadosReceptoraControleDeErroCRC (int quadro []) {
 void CamadaEnlaceDadosReceptoraControleDeErroCodigoDeHamming (int quadro []) {
     //implementacao do algoritmo para VERIFICAR SE HOUVE ERRO
 }
+ */
