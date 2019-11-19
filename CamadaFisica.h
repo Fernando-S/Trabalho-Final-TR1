@@ -5,14 +5,14 @@ void CamadaFisicaTransmissora (int quadro[], int size);
 
 int* CamadaFisicaTransmissoraCodificacaoBinaria (int quadro [], int size);
 
-int* CamadaFisicaTransmissoraCodificacaoManchester (int quadro []);
+int* CamadaFisicaTransmissoraCodificacaoManchester (int quadro [], int size);
 
-int* CamadaFisicaTransmissoraCodificacaoManchesterDiferencial(int quadro []);
+int* CamadaFisicaTransmissoraCodificacaoManchesterDiferencial(int quadro [], int size);
+
+void MeioDeComunicacao (int fluxoBrutoDeBits [], int size);
+
+void CamadaFisicaReceptora (int quadro[], int size);
 /*
-void MeioDeComunicacao (int fluxoBrutoDeBits []);
-
-void CamadaFisicaReceptora (int quadro[]);
-
 int[] CamadaFisicaReceptoraCodificacaoBinaria (int quadro []);
 
 int[] CamadaFisicaReceptoraCodificacaoManchester (int quadro []);

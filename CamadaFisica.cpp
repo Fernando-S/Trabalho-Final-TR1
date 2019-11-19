@@ -7,7 +7,7 @@ using namespace std;
 //		Metodo CamadaFisicaTransmissora		//
 /////////////////////////////////////////////
 void CamadaFisicaTransmissora (int quadro[], int size) {
-	int tipoDeCodificacao = 0; //alterar de acordo o teste
+	int tipoDeCodificacao = 2; //alterar de acordo o teste
 	int* fluxoBrutoDeBits; //ATENÇÃO: trabalhar com BITS!!!
 
 	cout << "O quadro enviado apos traducao para bits eh: ";
@@ -23,21 +23,21 @@ void CamadaFisicaTransmissora (int quadro[], int size) {
 		case 0 : //codificao binaria
 		    fluxoBrutoDeBits = CamadaFisicaTransmissoraCodificacaoBinaria(quadro, size);
 			break;
-//		case 1 : //codificacao manchester
-//			fluxoBrutoDeBits = CamadaFisicaTransmissoraCodificacaoManchester(quadro);
-//			break;
-//		case 2 : //codificacao manchester diferencial
-//			fluxoBrutoDeBits = CamadaFisicaTransmissoraCodificacaoManchesterDiferencial(quadro);
-//		break;
+		case 1 : //codificacao manchester
+			fluxoBrutoDeBits = CamadaFisicaTransmissoraCodificacaoManchester(quadro, size);
+			break;
+		case 2 : //codificacao manchester diferencial
+			fluxoBrutoDeBits = CamadaFisicaTransmissoraCodificacaoManchesterDiferencial(quadro, size);
+		break;
 	}
 
 	cout << "O fluxo de bits eh: ";
-    for(int i = 0; i < size; i++){
-        cout << fluxoBrutoDeBits[i];
-    }
+//    for(int i = 0; i < size; i++){
+//        cout << fluxoBrutoDeBits[i];
+//    }
 	cout << endl;
 
-//	MeioDeComunicacao(fluxoBrutoDeBits);
+//	MeioDeComunicacao(fluxoBrutoDeBits, size);
 }
 
 
@@ -64,7 +64,7 @@ int* CamadaFisicaTransmissoraCodificacaoBinaria (int quadro [], int size) {
 ///////////////////////////////////////////////////////////////////////
 //		Metodo CamadaFisicaTransmissoraCodificacaoManchester		//
 /////////////////////////////////////////////////////////////////////
-int* CamadaFisicaTransmissoraCodificacaoManchester (int quadro []) {
+int* CamadaFisicaTransmissoraCodificacaoManchester (int quadro [], int size) {
 	// Assumindo que o clock inicia em 0 e adotada a convenção de G. E. Thomas.
     // Material que mais auxiliou a compreender a lógica manchester:
     // https://github.com/sdht0/manchester-encoding/blob/master/screenshot.jpg
@@ -79,43 +79,44 @@ int* CamadaFisicaTransmissoraCodificacaoManchester (int quadro []) {
 //    return manchester;
 }
 
+
 ///////////////////////////////////////////////////////////////////////////////
 //		Metodo CamadaFisicaTransmissoraCodificacaoManchesterDiferencial		//
 /////////////////////////////////////////////////////////////////////////////
-int[] CamadaFisicaTransmissoraCodificacaoManchesterDiferencial (int quadro [], int size) {
+int* CamadaFisicaTransmissoraCodificacaoManchesterDiferencial (int quadro[], int size) {
 	// Assumindo que o clock inicia em 0
-	int manchesterD[2*size];
-	int i;
-	int bitAnterior = 1; //bit antes do começo da análise do quadro para codificação
-	for(i = 0; i<size; i++){
-	   manchesterD[2*i] = 0;        //vai ser inicialmente o clock, para fazer as modificações em cima desse vetor
-	   manchesterD[2*i + 1] = 1;
-  }
+    int manchesterD[2*size];
+    int i;
+    int bitAnterior = 1; //bit antes do começo da análise do quadro para codificação
+    for(i = 0; i<size; i++){
+        manchesterD[2*i] = 0;        //vai ser inicialmente o clock, para fazer as modificações em cima desse vetor
+        manchesterD[2*i + 1] = 1;
+    }
 
 	for (i=0; i<size; i++){
-    if(i == 0){
-      if(quadro[0] == 1){
-        manchesterD[2*i] = bitAnterior;
-        manchesterD[2*i + 1] ^= manchesterD[2*i];
-      }
-      else if (quadro[0] == 0){
-        manchesterD[2*1] ^= bitAnterior;
-        manchesterD[2*i + 1] ^= manchesterD[2*i];
-      }
-    }
-    else{
-      if(quadro[i] == 1){
-        manchesterD[2*i] = manchesterD[2*i - 1];
-        manchesterD[2*i + 1] ^= manchesterD[2*i];
-      }
-      else if(quadro[i] == 0){
-        if(i > 0){
-          manchesterD[2*i] = manchesterD[2*i - 2];
-          manchesterD[2*i + 1] = manchesterD[2*i - 1];
+        if(i == 0){
+            if(quadro[0] == 1){
+                manchesterD[2*i] = bitAnterior;
+                manchesterD[2*i + 1] ^= manchesterD[2*i];
+            }
+            else if (quadro[0] == 0){
+                manchesterD[2*1] ^= bitAnterior;
+                manchesterD[2*i + 1] ^= manchesterD[2*i];
+            }
         }
-      }
+        else{
+            if(quadro[i] == 1){
+                manchesterD[2*i] = manchesterD[2*i - 1];
+                manchesterD[2*i + 1] ^= manchesterD[2*i];
+            }
+            else if(quadro[i] == 0){
+                if(i > 0){
+                    manchesterD[2*i] = manchesterD[2*i - 2];
+                    manchesterD[2*i + 1] = manchesterD[2*i - 1];
+                }
+            }
+        }
     }
-  }
 
 	MeioDeComunicacao(manchesterD, size);
 }
@@ -131,57 +132,65 @@ int bitXor(int a, int b) {
 int bitXnor(int a, int b) {
     return !(a^b);
 }
-
+*/
 ///////////////////////////////////////////
 //		Metodo MeioDeTransmissao		//
 /////////////////////////////////////////
 // Este metodo simula a transmissao da informacao no meio de
 // comunicacao, passando de um pontoA (transmissor) para um
 // ponto B (receptor)
-//
-*/
-void MeioDeComunicacao (int fluxoBrutoDeBits [], int size) {
+void MeioDeComunicacao (int fluxoBrutoDeBits[], int size) {
     //OBS IMPORTANTE: trabalhar com BITS e nao com BYTES!!!
     int fluxoBrutoDeBitsPontoA[size], fluxoBrutoDeBitsPontoB[size];
-		int i;
-		for(i=0; i< size; i++){
-    	fluxoBrutoDeBitsPontoA[i] = fluxoBrutoDeBits[i];
-		}
+    int i;
 
-    while (fluxoBrutoDeBitsPontoB.lenght != fluxoBrutoDeBitsPontoA) {
-        fluxoBrutoBitsPontoB += fluxoBrutoBitsPontoA; //BITS! Sendo transferidos
+    for(i=0; i< size; i++){
+       fluxoBrutoDeBitsPontoA[i] = fluxoBrutoDeBits[i];
+    }
+
+//    while (fluxoBrutoDeBitsPontoB.lenght != fluxoBrutoDeBitsPontoA) {
+//        fluxoBrutoDeBitsPontoB[i] += fluxoBrutoDeBitsPontoA[i]; //BITS! Sendo transferidos
+//    }
+
+
+    for(i = 0; i< size; i++) {
+        fluxoBrutoDeBitsPontoB[i] += fluxoBrutoDeBitsPontoA[i]; //BITS! Sendo transferidos
     }
     //chama proxima camada
-    CamadaFisicaReceptora(fluxoBrutoDeBitsPontoB);
+    CamadaFisicaReceptora(fluxoBrutoDeBitsPontoB, size);
 }
-/*
+
 
 ///////////////////////////////////////////////
 //		Metodo CamadaFisicaTransmissora		//
 /////////////////////////////////////////////
-void CamadaFisicaReceptora (int quadro[]) {
+void CamadaFisicaReceptora (int quadro[], int size) {
     int tipoDeDecodificacao = 0; //alterar de acordo o teste
-    int fluxoBrutoDeBits []; //ATENÇÃO: trabalhar com BITS!!!
+    int* fluxoBrutoDeBits; //ATENÇÃO: trabalhar com BITS!!!
 
-    switch (tipoDeDecodificacao) {
-        case 0 : //codificao binaria
-            fluxoBrutoDeBits =
-                    CamadaFisicaReceptoraDecodificacaoBinaria(quadro);
-            break;
-        case 1 : //codificacao manchester
-            fluxoBrutoDeBits =
-                    CamadaFisicaReceptoraDecodificacaoManchester(quadro);
-            break;
-        case 2 : //codificacao manchester diferencial
-            fluxoBrutoDeBits =
-                    CamadaFisicaReceptoraDecodificacaoManchesterDiferencial(quadro);
-            break;
-    }
-    //chama proxima camada
-    CamadaDeAplicacaoReceptora(fluxoBrutoDeBits);
+    //todo - fazer a decodificacao
+//    switch (tipoDeDecodificacao) {
+//        case 0 : //codificao binaria
+//            fluxoBrutoDeBits =
+//                    CamadaFisicaReceptoraDecodificacaoBinaria(quadro);
+//            break;
+//        case 1 : //codificacao manchester
+//            fluxoBrutoDeBits =
+//                    CamadaFisicaReceptoraDecodificacaoManchester(quadro);
+//            break;
+//        case 2 : //codificacao manchester diferencial
+//            fluxoBrutoDeBits =
+//                    CamadaFisicaReceptoraDecodificacaoManchesterDiferencial(quadro);
+//            break;
+//    }
+//    //chama proxima camada
+//    CamadaDeAplicacaoReceptora(fluxoBrutoDeBits);
+
+
+
 }
 
-
+/*
 ///////////////////////////////////////////////////////////////////
 //		Metodo CamadaFisicaReceptoraDecodificacaoBinaria		//
 /////////////////////////////////////////////////////////////////
@@ -193,8 +202,8 @@ int[] CamadaFisicaReceptoraCodificacaoBinaria (int quadro []) {
 ///////////////////////////////////////////////////////////////////
 //		Metodo CamadaFisicaReceptoraDecodificacaoManchester		//
 /////////////////////////////////////////////////////////////////
-*/
-int[] CamadaFisicaReceptoraCodificacaoManchester (int quadro [], int size) {
+*
+int* CamadaFisicaReceptoraCodificacaoManchester (int quadro [], int size) {
 	int clk[2*size];
 	int bitAnterior = 1;
   for(i = 0; i<size; i++){  //mapeia um clock igual ao utilizado para codificar
