@@ -78,13 +78,36 @@ int* CamadaFisicaTransmissoraCodificacaoManchester (int quadro []) {
 //
 //    return manchester;
 }
-/*
+
 ///////////////////////////////////////////////////////////////////////////////
 //		Metodo CamadaFisicaTransmissoraCodificacaoManchesterDiferencial		//
 /////////////////////////////////////////////////////////////////////////////
-int[] CamadaFisicaTransmissoraCodificacaoManchesterDiferencial (int quadro []) {
-	// Code
+int[] CamadaFisicaTransmissoraCodificacaoManchesterDiferencial (int quadro [], int size) {
+	// Assumindo que o clock inicia em 0
+	int manchesterD[2*size];
+	int i;
+	for(i = 0; i<size; i++){
+	   manchesterD[2*i] = 0;        //vai ser inicialmente o clock, para fazer as modificações em cima desse vetor
+	   manchesterD[2*i + 1] = 1;
+  }
+
+	for (i=0; i<size; i++){
+    if(quadro[i] == 1){						//caso o bit 'i' do quadro seja 1, o sinal permanece igual ao estado anterior
+      manchesterD[2*i] = manchesterD[2*i - 1]; //continuando o ciclo periódico de clock
+      manchesterD[2*i + 1] ^= manchesterD[2*i];
+    }
+
+    else if(quadro[i] == 0){
+      if(i > 0){																			//caso o bit 'i' do quadro seja 0,
+      	manchesterD[2*i] = manchesterD[2*i - 2];			//o estado atual do clock é invertido com relação ao último estado
+      	manchesterD[2*i + 1] = manchesterD[2*i - 1];
+    	}
+    }
+  }
+
 }
+
+/*
 
 int bitXor(int a, int b) {
     return a^b;
