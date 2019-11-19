@@ -117,9 +117,7 @@ int[] CamadaFisicaTransmissoraCodificacaoManchesterDiferencial (int quadro [], i
     }
   }
 
-	newsize = 2*size;
-
-	MeioDeComunicacao(manchesterD, newsize);
+	MeioDeComunicacao(manchesterD, size);
 }
 
 /*
@@ -195,10 +193,37 @@ int[] CamadaFisicaReceptoraCodificacaoBinaria (int quadro []) {
 ///////////////////////////////////////////////////////////////////
 //		Metodo CamadaFisicaReceptoraDecodificacaoManchester		//
 /////////////////////////////////////////////////////////////////
-int[] CamadaFisicaReceptoraCodificacaoManchester (int quadro []) {
+*/
+int[] CamadaFisicaReceptoraCodificacaoManchester (int quadro [], int size) {
+	int clk[2*size];
+	int bitAnterior = 1;
+  for(i = 0; i<size; i++){  //mapeia um clock igual ao utilizado para codificar
+	   clk[2*i] = 0;
+	   clk[2*i + 1] = 1;
+  }
     //implementacao do algoritmo para DECODIFICAR
-}
+	int quadroDecod[size];
 
+	for(i=0; i<size; i++){
+    if(i == 0){
+      if(quadro[0] == bitAnterior){
+        quadroDecod[0] = 1;
+      }
+      else if (quadro[0] != bitAnterior){
+        quadroDecod[0] = 0;
+      }
+    }
+    else{
+      if(quadro[2*i] == quadro[2*i - 1])
+        quadroDecod[i] = 1;
+      else
+        quadroDecod[i] = 0;
+    }
+//    cout << quadroDecod[i];
+  }
+	CamadaDeAplicacaoReceptora(quadroDecod, size);
+}
+/*
 
 ///////////////////////////////////////////////////////////////////////////////
 //		Metodo CamadaFisicaReceptoraDecodificacaoManchesterDiferencial		//
