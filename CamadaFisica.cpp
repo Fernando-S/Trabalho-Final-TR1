@@ -57,19 +57,14 @@ void CamadaFisicaTransmissoraCodificacaoBinaria (int quadro [], int size) {
 ///////////////////////////////////////////////////////////////////////
 //		Metodo CamadaFisicaTransmissoraCodificacaoManchester		//
 /////////////////////////////////////////////////////////////////////
-void CamadaFisicaTransmissoraCodificacaoManchester (int quadro [], int size) {
+void CamadaFisicaTransmissoraCodificacaoManchester (int* quadro, int size, int* manchester) {
 	// Assumindo que o clock inicia em 0 e adotada a convenção de G. E. Thomas.
     // Material que mais auxiliou a compreender a lógica manchester:
     // https://github.com/sdht0/manchester-encoding/blob/master/screenshot.jpg
-//    int quadroSize = sizeof(quadro)
-//    int manchester[2*quadroSize];
-//
-//    for (int i = 0; i < quadroSize; i++) {
-//        manchester[2*i] = bitXnor(0, quadro[i])
-//        manchester[2*i +1] = bitXnor(1, quadro[i])
-//    }
-//
-//    return manchester;
+    for (int i = 0; i < size; i++) {
+        manchester[2*i] = bitXnor(0, quadro[i]);
+        manchester[2*i +1] = bitXnor(1, quadro[i]);
+    }
 }
 
 
@@ -127,11 +122,12 @@ int bitXor(int a, int b) {
 }
 
 }
+*/
 
 int bitXnor(int a, int b) {
     return !(a^b);
 }
-*/
+
 ///////////////////////////////////////////
 //		Metodo MeioDeTransmissao		//
 /////////////////////////////////////////
