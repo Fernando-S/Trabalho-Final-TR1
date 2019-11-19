@@ -1,12 +1,22 @@
 #include "CamadaFisica.h"
-/*
+#include <iostream>
+
+using namespace std;
+
 ///////////////////////////////////////////////
 //		Metodo CamadaFisicaTransmissora		//
 /////////////////////////////////////////////
-void CamadaFisicaTransmissora (int quadro[]) {
+void CamadaFisicaTransmissora (int quadro[], int size) {
 	int tipoDeCodificacao = 0; //alterar de acordo o teste
-	int fluxoBrutoDeBits []; //ATENÇÃO: trabalhar com BITS!!!
-	
+//	int fluxoBrutoDeBits[]; //ATENÇÃO: trabalhar com BITS!!!
+
+    for (int m = 0; m < size; m++){
+        cout << quadro[m];
+    }  //  o for comentado testa a saida do ponteiro
+
+    cout << endl;
+
+	/*
 	switch (tipoDeCodificacao) {
 		case 0 : //codificao binaria
 			fluxoBrutoDeBits = CamadaFisicaTransmissoraCodificacaoBinaria(quadro);
@@ -20,9 +30,10 @@ void CamadaFisicaTransmissora (int quadro[]) {
 	}
 
 	MeioDeComunicacao(fluxoBrutoDeBits);
+	*/
 }
 
-
+/*
 ///////////////////////////////////////////////////////////////////
 //		Metodo CamadaFisicaTransmissoraCodificacaoBinaria		//
 /////////////////////////////////////////////////////////////////

@@ -1,8 +1,8 @@
 #ifndef CAMADA_FISICA_H
 #define CAMADA_FISICA_h
-/*
-void CamadaFisicaTransmissora (int quadro[]);
 
+void CamadaFisicaTransmissora (int quadro[], int size);
+/*
 int[] CamadaFisicaTransmissoraCodificacaoBinaria (int quadro []);
 
 int[] CamadaFisicaTransmissoraCodificacaoManchester (int quadro []);

@@ -2,26 +2,23 @@
 #include <string>
 #include <cstdlib>
 #include <bits/stdc++.h>
+#include "CamadaFisica.h"
 
 using namespace std;
 
 /*************************************************************
 * NAO ESQUECER DOS COMENTARIOS!
 *********************************************************** */
-
-/////////////////////////////////////////////
-//    Metodo ConversorDecimalBinario      //
-///////////////////////////////////////////
-int* ConversorDecimalBinario (string msg) {
-//    cout << msg;
-    int n = msg.size();
-    int mensagem[n];
-    int i = 0, m = 0;
+///////////////////////////////////////////////////
+//		Metodo CamadaAplicacaoTransmissora		//
+/////////////////////////////////////////////////
+void CamadaDeAplicacaoTransmissora (string mensagem) {
+    int n = mensagem.size();
+    int i = 0, m = 0, size = 0, msg[n];
     int quadro_invertido[n*7], quadro[n*7];
-    int size = 0;
 
     for (i = 0; i < n; i++){
-        mensagem[i] = msg[i];
+        msg[i] = mensagem[i];
     }
 
     i=0;
@@ -30,9 +27,9 @@ int* ConversorDecimalBinario (string msg) {
 
     for(m = 0; m < n; m++){
         i = 0;
-        while(mensagem[m] > 0){
-            quadro_invertido[i] = mensagem[m]%2;
-            mensagem[m] /= 2;
+        while(msg[m] > 0){
+            quadro_invertido[i] = msg[m]%2;
+            msg[m] /= 2;
             i++;
         }
         size += i;
@@ -45,37 +42,7 @@ int* ConversorDecimalBinario (string msg) {
         }
     }
 
-    int *ptr;
-    ptr = &quadro[0];
-//    for (m = 0; m < size; m++){
-//      cout << ptr[m];
-//    }  //  o for comentado testa a saida do ponteiro
-    ptr = &quadro[0];
-
-    return ptr;
-    // todo - pensar em como retornar o array
-//        return *quadro;
-}
-
-///////////////////////////////////////////////////
-//		Metodo CamadaAplicacaoTransmissora		//
-/////////////////////////////////////////////////
-void CamadaDeAplicacaoTransmissora (string mensagem) {
-    //int quadro [] = mensagem //trabalhar com bits!!!
-
-    //chama a proxima camada
-    int *ptr;
-    ptr = ConversorDecimalBinario(mensagem);
-    int m;
-    for(m = 0; m<12; m++){
-      cout << ptr[m];
-    }
-//    for (m = 0; ptr[m] != '\0' ; m++){
-    //  cout << &ptr[m];
-//    }
-
-
-    //CamadaFisicaTransmissora(quadro);
+    CamadaFisicaTransmissora(quadro, size);
 }
 
 
