@@ -7,11 +7,11 @@ using namespace std;
 
 void CamadaFisicaTransmissora (int quadro[], int size);
 
-int* CamadaFisicaTransmissoraCodificacaoBinaria (int quadro [], int size);
+void CamadaFisicaTransmissoraCodificacaoBinaria (int quadro [], int size);
 
-int* CamadaFisicaTransmissoraCodificacaoManchester (int quadro [], int size);
+void CamadaFisicaTransmissoraCodificacaoManchester (int quadro [], int size);
 
-int* CamadaFisicaTransmissoraCodificacaoManchesterDiferencial(int quadro [], int size);
+void CamadaFisicaTransmissoraCodificacaoManchesterDiferencial(int quadro [], int size);
 
 void MeioDeComunicacao (int fluxoBrutoDeBits [], int size);
 
