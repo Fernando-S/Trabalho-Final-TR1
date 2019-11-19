@@ -2,7 +2,6 @@
 #include <iostream>
 
 using namespace std;
-void CamadaFisicaReceptoraDecodificacaoManchesterDiferencial(int quadro[], int size);
 ///////////////////////////////////////////////
 //		Metodo CamadaFisicaTransmissora		//
 /////////////////////////////////////////////
@@ -173,16 +172,13 @@ void CamadaFisicaReceptora (int quadro[], int size) {
     //todo - fazer a decodificacao
     switch (tipoDeDecodificacao) {
         case 0 : //codificao binaria
-//            fluxoBrutoDeBits =
-//                    CamadaFisicaReceptoraDecodificacaoBinaria(quadro);
+//            fluxoBrutoDeBits = CamadaFisicaReceptoraDecodificacaoBinaria(quadro);
             break;
         case 1 : //codificacao manchester
-//            fluxoBrutoDeBits =
-//                    CamadaFisicaReceptoraDecodificacaoManchester(quadro);
+//            fluxoBrutoDeBits = CamadaFisicaReceptoraDecodificacaoManchester(quadro);
             break;
         case 2 : //codificacao manchester diferencial
-//            fluxoBrutoDeBits =
-                    CamadaFisicaReceptoraDecodificacaoManchesterDiferencial(quadro, size);
+//            fluxoBrutoDeBits = CamadaFisicaReceptoraDecodificacaoManchesterDiferencial(quadro, size);
             break;
     }
 //    //chama proxima camada
@@ -192,29 +188,28 @@ void CamadaFisicaReceptora (int quadro[], int size) {
 
 }
 
-/*
+
 ///////////////////////////////////////////////////////////////////
 //		Metodo CamadaFisicaReceptoraDecodificacaoBinaria		//
 /////////////////////////////////////////////////////////////////
-int[] CamadaFisicaReceptoraCodificacaoBinaria (int quadro []) {
+int* CamadaFisicaReceptoraCodificacaoBinaria (int quadro []) {
     //implementacao do algoritmo para DECODIFICAR
 }
 
-*/
+
 ///////////////////////////////////////////////////////////////////
 //		Metodo CamadaFisicaReceptoraDecodificacaoManchester		//
 /////////////////////////////////////////////////////////////////
-/*
+
 int* CamadaFisicaReceptoraDecodificacaoManchester (int quadro [], int size) {
 
 //	CamadaDeAplicacaoReceptora(quadroDecod, size);
 }
-/*
+
 
 ///////////////////////////////////////////////////////////////////////////////
 //		Metodo CamadaFisicaReceptoraDecodificacaoManchesterDiferencial		//
 /////////////////////////////////////////////////////////////////////////////
-*/
 void CamadaFisicaReceptoraDecodificacaoManchesterDiferencial(int quadro[], int size){
 	int clk[2*size];
 	int bitAnterior = 1;
@@ -246,14 +241,17 @@ void CamadaFisicaReceptoraDecodificacaoManchesterDiferencial(int quadro[], int s
 	cout << endl;
 }
 
-/*
+
 ///////////////////////////////////////////////////
 //		Metodo CamadaDeAplicacaoReceptora		//
 /////////////////////////////////////////////////
-void CamadaDeAplicacaoReceptora (int quadro []) {
+void CamadaDeAplicacaoReceptora (int quadro [], int size) {
     //string mensagem = quadro []; //estava trabalhando com bits
     //chama proxima camada
-    AplicacaoReceptora(mensagem);
+
+    // todo - decodificacao eh aqui
+
+    //AplicacaoReceptora(mensagem);
 }
 
 
@@ -263,4 +261,4 @@ void CamadaDeAplicacaoReceptora (int quadro []) {
 void AplicacaoReceptora (string mensagem) {
     cout << "A mensagem recebida foi:" << mensagem << endl;
 }
- */
+
