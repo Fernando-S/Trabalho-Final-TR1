@@ -1,26 +1,30 @@
 #ifndef CAMADA_FISICA_H
 #define CAMADA_FISICA_h
-/*
-void CamadaFisicaTransmissora (int quadro[]);
 
-int[] CamadaFisicaTransmissoraCodificacaoBinaria (int quadro []);
+#include <string>
 
-int[] CamadaFisicaTransmissoraCodificacaoManchester (int quadro []);
+using namespace std;
 
-int[] CamadaFisicaTransmissoraCodificacaoManchesterDiferencial(int quadro []);
+void CamadaFisicaTransmissora (int quadro[], int size);
 
-void MeioDeComunicacao (int fluxoBrutoDeBits []);
+void CamadaFisicaTransmissoraCodificacaoBinaria (int quadro [], int size);
 
-void CamadaFisicaReceptora (int quadro[]);
+void CamadaFisicaTransmissoraCodificacaoManchester (int quadro [], int size);
 
-int[] CamadaFisicaReceptoraCodificacaoBinaria (int quadro []);
+void CamadaFisicaTransmissoraCodificacaoManchesterDiferencial(int quadro [], int size);
 
-int[] CamadaFisicaReceptoraCodificacaoManchester (int quadro []);
+void MeioDeComunicacao (int fluxoBrutoDeBits [], int size);
 
-int[] CamadaFisicaReceptoraCodificacaoManchesterDiferencial (int quadro[]);
+void CamadaFisicaReceptora (int quadro[], int size);
 
-void CamadaDeAplicacaoReceptora (int quadro []);
+int* CamadaFisicaReceptoraCodificacaoBinaria (int quadro [], int size);
+
+int* CamadaFisicaReceptoraCodificacaoManchester (int quadro [], int size);
+
+int* CamadaFisicaReceptoraCodificacaoManchesterDiferencial (int quadro[], int size);
+
+void CamadaDeAplicacaoReceptora (int quadro [], int size);
 
 void AplicacaoReceptora (string mensagem);
-*/
+
 #endif // CAMADA_FISICA_H
