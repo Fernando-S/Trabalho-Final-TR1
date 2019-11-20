@@ -164,24 +164,31 @@ void CamadaEnlaceDadosTransmissoraControleDeErro (int quadro []) {
             break;
     }
 }
-
+*/
 
 ///////////////////////////////////////////////////////////////////////////////////
 //      Metodo CamadaEnlaceDadosTransmissoraControledeErroBitParidadePar        //
 /////////////////////////////////////////////////////////////////////////////////
-void CamadaEnlaceDadosTransmissoraControleDeErroBitParidadePar (int quadro []) {
-    //implementacao do algoritmo
+int CamadaEnlaceDadosTransmissoraControleDeErroBitParidadePar(int quadro[], int size) {
+    // Retorna o valor do bit de paridade que deve ser concatenado ao quadro
+    int bitParidade = 0;
+
+    for(int i = 0; i < size; i++) {
+        bitParidade ^= quadro[i];
+    }
+    return bitParidade;
 }
 
 
 /////////////////////////////////////////////////////////////////////////////////////
 //      Metodo CamadaEnlaceDadosTransmissoraControledeErroBitParidadeImpar        //
 ///////////////////////////////////////////////////////////////////////////////////
-void CamadaEnlaceDadosTransmissoraControleDeErroBitParidadeImpar (int quadro []) {
-    //implementacao do algoritmo
+int CamadaEnlaceDadosTransmissoraControleDeErroBitParidadeImpar(int quadro[], int size) {
+    // Retorna o valor do bit de paridade que deve ser concatenado ao quadro
+    return ! CamadaEnlaceDadosTransmissoraControleDeErroBitParidadePar(quadro, size);
 }
 
-
+/*
 ////////////////////////////////////////////////////////////////////////
 //      Metodo CamadaEnlaceDadosTransmissoraControledeErroCRC        //
 //////////////////////////////////////////////////////////////////////
@@ -250,24 +257,40 @@ void CamadaEnlaceDadosReceptoraControleDeErro (int quadro []) {
             break;
     }
 }
-
+*/
 
 //////////////////////////////////////////////////////////////////////////////////
 //      Metodo CamadaEnlaceDadosReceptoraControleDeErroBitDeParidadePar        //
 ////////////////////////////////////////////////////////////////////////////////
-void CamadaEnlaceDadosReceptoraControleDeErroBitDeParidadePar (int quadro []) {
+int CamadaEnlaceDadosReceptoraControleDeErroBitDeParidadePar (int quadro [], int size) {
     //implementacao do algoritmo para VERIFICAR SE HOUVE ERRO
+    int bitParidade;
+
+    // Como foi adicionado um bit ao quadro para que a paridade ficasse par, o resultado
+    // dessa função deve ser sempre 0, caso contrário ocorreu algum erro na transmissão
+    bitParidade = CamadaEnlaceDadosTransmissoraControleDeErroBitDeParidadePar(quadro, size);
+    
+    // Retorna 1 se sucesso e 0 em caso de erro de transmissão
+    return !bitParidade;
 }
 
 
 ////////////////////////////////////////////////////////////////////////////////////
 //      Metodo CamadaEnlaceDadosReceptoraControleDeErroBitDeParidadeImpar        //
 //////////////////////////////////////////////////////////////////////////////////
-void CamadaEnlaceDadosReceptoraControleDeErroBitDeParidadeImpar (int quadro []) {
+int CamadaEnlaceDadosReceptoraControleDeErroBitDeParidadeImpar (int quadro [], int size) {
     //implementacao do algoritmo para VERIFICAR SE HOUVE ERRO
+    int bitParidade;
+
+    // Como foi adicionado um bit ao quadro para que a paridade ficasse ímpar, o resultado
+    // dessa função deve ser sempre 0, caso contrário ocorreu algum erro na transmissão
+    bitParidade = CamadaEnlaceDadosTransmissoraControleDeErroBitDeParidadeImpar(quadro, size);
+    
+    // Retorna 1 se sucesso e 0 em caso de erro de transmissão
+    return !bitParidade;
 }
 
-
+/*
 /////////////////////////////////////////////////////////////////////
 //      Metodo CamadaEnlaceDadosReceptoraControleDeErroCRC        //
 ///////////////////////////////////////////////////////////////////
