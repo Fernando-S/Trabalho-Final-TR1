@@ -6,11 +6,19 @@ using namespace std;
 //		Metodo CamadaFisicaTransmissora		//
 /////////////////////////////////////////////
 void CamadaFisicaTransmissora (int quadro[], int size) {
-	int tipoDeCodificacao = 0; //alterar de acordo o teste
+	int tipoDeCodificacao = 1; //alterar de acordo o teste
 //	int* fluxoBrutoDeBits; //ATENÇÃO: trabalhar com BITS!!!
 
-	cout << "O quadro enviado apos traducao para bits eh: ";
+    cout << "Por favor, informe qual codificacao deseja (1 - Binaria, 2 - Manchester, 3 Manchester Diferencial: ";
+    cin >> tipoDeCodificacao;
+    while(tipoDeCodificacao != 1 && tipoDeCodificacao != 2 && tipoDeCodificacao != 3){
+        cout << "Opcao invalida!" << endl;
+        cout << "Por favor, informe qual codificacao deseja (1 - Binaria, 2 - Manchester, 3 Manchester Diferencial: ";
+        cin >> tipoDeCodificacao;
+    }
+    tipoDeCodificacao--;
 
+	cout << "O quadro enviado apos traducao para bits eh: ";
     for (int m = 0; m < size; m++){
         cout << quadro[m];
     }  //  o for comentado testa a saida do ponteiro
@@ -23,7 +31,7 @@ void CamadaFisicaTransmissora (int quadro[], int size) {
 		    CamadaFisicaTransmissoraCodificacaoBinaria(quadro, size);
 			break;
 		case 1 : //codificacao manchester
-			CamadaFisicaTransmissoraCodificacaoManchester(quadro, size);
+			CamadaFisicaTransmissoraCodificacaoManchester(quadro, size, quadro);
 			break;
 		case 2 : //codificacao manchester diferencial
 			CamadaFisicaTransmissoraCodificacaoManchesterDiferencial(quadro, size);
@@ -50,7 +58,7 @@ void CamadaFisicaTransmissoraCodificacaoBinaria (int quadro [], int size) {
     // exemplo generico
 //    static int array[3] = {1,2,3};
 //    return array;
-    MeioDeComunicacao(quadro, size);
+    MeioDeComunicacao(quadro, size, 0);
 }
 
 
@@ -61,10 +69,20 @@ void CamadaFisicaTransmissoraCodificacaoManchester (int* quadro, int size, int* 
 	// Assumindo que o clock inicia em 0 e adotada a convenção de G. E. Thomas.
     // Material que mais auxiliou a compreender a lógica manchester:
     // https://github.com/sdht0/manchester-encoding/blob/master/screenshot.jpg
-    for (int i = 0; i < size; i++) {
+//    int manchester[2*size];
+    for (int i = 0; i < 2*size; i++) {
         manchester[2*i] = bitXnor(0, quadro[i]);
         manchester[2*i +1] = bitXnor(1, quadro[i]);
     }
+
+    cout << "O fluxo de bits apos a codificacao manchester eh: ";
+    for (int i=0; i< 2*size; i++){
+        cout << manchester[i];
+    }
+
+    cout << endl;
+
+//    MeioDeComunicacao(manchesterD, 2*size, 1);
 }
 
 
@@ -106,13 +124,13 @@ void CamadaFisicaTransmissoraCodificacaoManchesterDiferencial (int quadro[], int
         }
     }
 
-    cout << "O fluxo de bits apos a codificacao manchester eh: ";
+    cout << "O fluxo de bits apos a codificacao manchester diferencial eh: ";
     for(i=0; i< 2*size; i++){
         cout << manchesterD[i];
     }
     cout << endl;
 
-	MeioDeComunicacao(manchesterD, 2*size);
+	MeioDeComunicacao(manchesterD, 2*size, 2);
 }
 
 /*
@@ -134,7 +152,7 @@ int bitXnor(int a, int b) {
 // Este metodo simula a transmissao da informacao no meio de
 // comunicacao, passando de um pontoA (transmissor) para um
 // ponto B (receptor)
-void MeioDeComunicacao (int fluxoBrutoDeBits[], int size) {
+void MeioDeComunicacao (int fluxoBrutoDeBits[], int size, int tipoDeDecodificacao) {
     //OBS IMPORTANTE: trabalhar com BITS e nao com BYTES!!!
 
 //    if(codificacao != 0){
@@ -161,15 +179,15 @@ void MeioDeComunicacao (int fluxoBrutoDeBits[], int size) {
     }
 		cout << endl;
     //chama proxima camada
-    CamadaFisicaReceptora(fluxoBrutoDeBitsPontoB, size);
+    CamadaFisicaReceptora(fluxoBrutoDeBitsPontoB, size, tipoDeDecodificacao);
 }
 
 
 ///////////////////////////////////////////////
 //		Metodo CamadaFisicaTransmissora		//
 /////////////////////////////////////////////
-void CamadaFisicaReceptora (int quadro[], int size) {
-    int tipoDeDecodificacao = 2; //alterar de acordo o teste
+void CamadaFisicaReceptora (int quadro[], int size, int tipoDeDecodificacao) {
+//    int tipoDeDecodificacao = 0; //alterar de acordo o teste
 //    int* fluxoBrutoDeBits; //ATENÇÃO: trabalhar com BITS!!!
 //		cout << "chegou";
     //todo - fazer a decodificacao
@@ -196,8 +214,9 @@ void CamadaFisicaReceptora (int quadro[], int size) {
 ///////////////////////////////////////////////////////////////////
 //		Metodo CamadaFisicaReceptoraDecodificacaoBinaria		//
 /////////////////////////////////////////////////////////////////
-int* CamadaFisicaReceptoraCodificacaoBinaria (int quadro []) {
+void CamadaFisicaReceptoraCodificacaoBinaria (int quadro[], int size) {
     //implementacao do algoritmo para DECODIFICAR
+    CamadaDeAplicacaoReceptora(quadro, size);
 }
 
 
@@ -254,7 +273,7 @@ void CamadaDeAplicacaoReceptora (int quadro [], int size) {
     //string mensagem = quadro []; //estava trabalhando com bits
     //chama proxima camada
 
-    // todo - decodificacao eh aqui
+    cout << "Veio pra ca" << endl;
 
     //AplicacaoReceptora(mensagem);
 }
