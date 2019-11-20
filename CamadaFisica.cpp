@@ -25,13 +25,14 @@ void CamadaFisicaTransmissora (int quadro[], int size) {
 
     cout << endl;
 
+    int* manchester = (int*) malloc(2 * size); //< Utilizado para receber a resposta da codificação manchester
 
 	switch (tipoDeCodificacao) {
 		case 0 : //codificao binaria
 		    CamadaFisicaTransmissoraCodificacaoBinaria(quadro, size);
 			break;
 		case 1 : //codificacao manchester
-			CamadaFisicaTransmissoraCodificacaoManchester(quadro, size, quadro);
+			CamadaFisicaTransmissoraCodificacaoManchester(quadro, size, manchester);
 			break;
 		case 2 : //codificacao manchester diferencial
 			CamadaFisicaTransmissoraCodificacaoManchesterDiferencial(quadro, size);
