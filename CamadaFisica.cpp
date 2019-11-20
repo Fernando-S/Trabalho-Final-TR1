@@ -140,7 +140,7 @@ void MeioDeComunicacao (int fluxoBrutoDeBits[], int size, int tipoDeDecodificaca
     cout << "O fluxo de bits que parte do ponto A eh: ";
     for(i=0; i<size; i++){
        fluxoBrutoDeBitsPontoA[i] = fluxoBrutoDeBits[i];
-			 cout << fluxoBrutoDeBitsPontoA[i];
+         cout << fluxoBrutoDeBitsPontoA[i];
     }
     cout << endl;
 
