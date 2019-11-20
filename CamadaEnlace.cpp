@@ -1,37 +1,43 @@
 #include "CamadaEnlace.h"
 #include "iostream"
 #include "vector"
-/*
+
+using namespace std;
+
 ///////////////////////////////////////////////////////
 //      Metodo CamadaEnlaceDadosTransmissora        //
 /////////////////////////////////////////////////////
-void CamadaEnlaceDadosTransmissora (int quadro []) {
-    CamadaEnlaceDadosTransmissoraEnquadramento(quadro);
-    CamadaEnlaceDadosTransmissoraControleDeErro(quadro);
-    CamadaEnlaceDadosTransmissoraControleDeFluxo(quadro);
-
+void CamadaEnlaceDadosTransmissora (int quadro [], int size) {
+   CamadaEnlaceDadosTransmissoraEnquadramento(quadro,size);
+//    CamadaEnlaceDadosTransmissoraControleDeErro(quadro,size);
+//    CamadaEnlaceDadosTransmissoraControleDeFluxo(quadro,size);
     //chama proxima camada
-    CamadaFisicaTransmissora(quadro);
+//    CamadaFisicaTransmissora(quadro,size);
 }
-
+/*
 
 ///////////////////////////////////////////////////////////////
 //      Metodo CamadaEnlaceTransmissoraEnquadramento        //
 /////////////////////////////////////////////////////////////
-void CamadaEnlaceDadosTransmissoraEnquadramento (int quadro []) {
+*/
+void CamadaEnlaceDadosTransmissoraEnquadramento (int quadro [],int size) {
     int tipoDeEnquadramento= 0; //alterar de acordo com o teste
-    int quadroEnquadrado [];
 
     switch (tipoDeEnquadramento) {
         case 0 : //contagem de caracteres
-            quadroEnquadrado =
-CamadaDeEnlaceTransmissoraEnquadramentoContagemDeCaracteres(quadro); break; case
-1 : //insercao de bytes quadroEnquadrado =
-CamadaDeEnlaceTransmissoraEnquadramentoInsercaoDeBytes(quadro); break; case 2 :
+CamadaDeEnlaceTransmissoraEnquadramentoContagemDeCaracteres(quadro,size);
+        break;
+        case 1 : //insercao de bytes quadroEnquadrado =
+//CamadaDeEnlaceTransmissoraEnquadramentoInsercaoDeBytes(quadro,size);
+        break;
+        case 2 :
 //insercao de bits quadroEnquadrado =
-CamadaDeEnlaceTransmissoraEnquadramentoInsercaoDeBits(quadro); case 3 :
+//CamadaDeEnlaceTransmissoraEnquadramentoInsercaoDeBits(quadro,size);
+        break;
+        case 3 :
 //violacao da camada fisica quadroEnquadrado =
-CamadaDeEnlaceTransmissoraEnquadramentoViolacaoCamadaFisica(quadro); break;
+//CamadaDeEnlaceTransmissoraEnquadramentoViolacaoCamadaFisica(quadro,size);
+        break;
     }
 }
 
@@ -39,16 +45,75 @@ CamadaDeEnlaceTransmissoraEnquadramentoViolacaoCamadaFisica(quadro); break;
 ///////////////////////////////////////////////////////////////////////////
 //      Metodo CamadaEnlaceDadosTransmissoraContagemDeCaracteres        //
 /////////////////////////////////////////////////////////////////////////
-void CamadaEnlaceDadosTransmissoraEnquadramentoContagemDeCaracteres (int quadro
-[]) {
+void CamadaDeEnlaceTransmissoraEnquadramentoContagemDeCaracteres (int quadro [], int size) {
     //implementacao do algoritmo
+    int i, qtd, newsize;
+    qtd = size/7;
+//    cout << qtd;
+    int quadro_invertido[7];
+    newsize = size + 7;
+    int newquadro[newsize];
+    for(i = newsize-1; i>=0; i--){
+        newquadro[i] = quadro[i-7];
+    }
+    cout << endl;
+    i = 0;
+    while(qtd > 0){
+        quadro_invertido[i] = qtd%2;
+        qtd /= 2;
+//        cout << qtd << endl;
+//                cout << quadro_invertido[i];
+        i++;
+
+    }
+    if(i == 6){
+      quadro_invertido[i] = 0;
+      i++;
+    }
+    if(i == 5){
+      for(i = 5; i<8; i++)
+        quadro_invertido[i] = 0;
+    }
+    if(i == 4){
+      for(i = 4; i<8; i++)
+        quadro_invertido[i] = 0;
+    }
+    if(i == 3){
+      for(i = 3; i<8; i++)
+        quadro_invertido[i] = 0;
+    }
+    if(i == 2){
+      for(i = 2; i<8; i++)
+        quadro_invertido[i] = 0;
+    }
+    if(i == 1){
+      for(i = 1; i<8; i++)
+        quadro_invertido[i] = 0;
+    }
+
+
+
+
+    cout << endl;
+    int j = 0;
+    i = 6;
+    while(j<7){
+      newquadro[j] = quadro_invertido[i];
+      j++;
+      i--;
+    }
+
+    for(i=0; i<newsize; i++){
+      cout << newquadro[i];
+    }
+    cout << "\nEnquadramento completo";
 }
 
-
+/*
 //////////////////////////////////////////////////////////////////////
 //      Metodo CamadaEnlaceDadosTransmissoraInsercaoDeBytes        //
 ////////////////////////////////////////////////////////////////////
-void CamadaEnlaceDadosTransmissoraEnquadramentoInsercaoDeBytes (int quadro []) {
+void CamadaEnlaceDadosTransmissoraEnquadramentoInsercaoDeBytes (int quadro [], int size) {
     //implementacao do algoritmo
 }
 
@@ -56,16 +121,7 @@ void CamadaEnlaceDadosTransmissoraEnquadramentoInsercaoDeBytes (int quadro []) {
 /////////////////////////////////////////////////////////////////////
 //      Metodo CamadaEnlaceDadosTransmissoraInsercaoDeBits        //
 ///////////////////////////////////////////////////////////////////
-void CamadaEnlaceDadosTransmissoraEnquadramentoInsercaoDeBits (int quadro []) {
-    //implementacao do algoritmo
-}
-
-
-/////////////////////////////////////////////////////////////////////////////
-//      Metodo CamadaEnlaceDadosTransmissoraViolacaoDaCamadaFisica        //
-///////////////////////////////////////////////////////////////////////////
-void CamadaEnlaceDadosTransmissoraEnquadramentoViolacaoDaCamadaFisica (int
-quadro []) {
+void CamadaEnlaceDadosTransmissoraEnquadramentoInsercaoDeBits (int quadro [], int size) {
     //implementacao do algoritmo
 }
 
@@ -73,50 +129,59 @@ quadro []) {
 ////////////////////////////////////////////////////
 //      Metodo CamadaEnlaceDadosReceptora        //
 //////////////////////////////////////////////////
-void CamadaEnlaceDadosReceptora (int quadro []) {
-    CamadaDeEnlaceTransmissoraEnquadramento(quadro);
-    CamadaDeEnlaceTransmissoraControleDeErro(quadro);
-    CamadaDeEnlaceTransmissoraControleDeFluxo(quadro);
+*/
+void CamadaEnlaceDadosReceptora (int quadro [], int size) {
+    CamadaDeEnlaceReceptoraEnquadramento(quadro,size);
+//    CamadaDeEnlaceReceptoraControleDeErro(quadro,size);
+//    CamadaDeEnlaceReceptoraControleDeFluxo(quadro,size);
 
     //chama proxima camada
-    CamadaDeAplicacaoReceptora(quadro);
+    CamadaDeAplicacaoReceptora(quadro,size);
 }
 
 
 /////////////////////////////////////////////////////////////////
 //      Metodo CamadaEnlaceDadosReceptoraEnquadramento        //
 ///////////////////////////////////////////////////////////////
-void CamadaEnlaceDadosReceptoraEnquadramento (int quadro []) {
+void CamadaEnlaceDadosReceptoraEnquadramento (int quadro [], int size) {
     int tipoDeEnquadramento= 0; //alterar de acordo com o teste
     int quadroDesenquadrado [];
 
     switch (tipoDeEnquadramento) {
         case 0 : //contagem de caracteres
-            quadroDesenquadrado =
-CamadaDeEnlaceTransmissoraEnquadramentoContagemDeCaracteres(quadro); break; case
-1 : //insercao de bytes quadroDesenquadrado =
-CamadaDeEnlaceTransmissoraEnquadramentoInsercaoDeBytes(quadro); break; case 2 :
-//insercao de bits quadroDesenquadrado =
-CamadaDeEnlaceTransmissoraEnquadramentoInsercaoDeBits(quadro); case 3 :
-//violacao da camada fisica quadroDesenquadrado =
-CamadaDeEnlaceTransmissoraEnquadramentoViolacaoCamadaFisica(quadro); break;
+            quadroDesenquadrado = CamadaDeEnlaceTransmissoraEnquadramentoContagemDeCaracteres(quadro,size);
+            break;
+        case 1 : //insercao de bytes quadroDesenquadrado =
+//CamadaDeEnlaceTransmissoraEnquadramentoInsercaoDeBytes(quadro, size);
+            break;
+        case 2 : //insercao de bits quadroDesenquadrado =
+//CamadaDeEnlaceTransmissoraEnquadramentoInsercaoDeBits(quadro, size); //sem break??
+            break;
     }
 }
 
-
+/*
 ////////////////////////////////////////////////////////////////////////
 //      Metodo CamadaEnlaceDadosReceptoraContagemDeCaracteres        //
 //////////////////////////////////////////////////////////////////////
-void CamadaEnlaceDadosReceptoraEnquadramentoContagemDeCaracteres (int quadro [])
+*/
+void CamadaEnlaceDadosReceptoraEnquadramentoContagemDeCaracteres (int quadro [], int size)
 {
     //implementacao do algoritmo para DESENQUADRAR
-}
+    int i;
+    int newquadro[size-7];
+    for(i = 0; i<size-7; i++){
+      newquadro[i] = quadro[i+7];
+      cout << newquadro[i];
+    }
 
+}
+/*
 
 ///////////////////////////////////////////////////////////////////
 //      Metodo CamadaEnlaceDadosReceptoraInsercaoDeBytes        //
 /////////////////////////////////////////////////////////////////
-void CamadaEnlaceDadosReceptoraEnquadramentoInsercaoDeBytes (int quadro []) {
+void CamadaEnlaceDadosReceptoraEnquadramentoInsercaoDeBytes (int quadro [], int size) {
     //implementacao do algoritmo para DESENQUADRAR
 }
 
@@ -124,16 +189,7 @@ void CamadaEnlaceDadosReceptoraEnquadramentoInsercaoDeBytes (int quadro []) {
 //////////////////////////////////////////////////////////////////
 //      Metodo CamadaEnlaceDadosReceptoraInsercaoDeBits        //
 ////////////////////////////////////////////////////////////////
-void CamadaEnlaceDadosReceptoraEnquadramentoInsercaoDeBits (int quadro[]) {
-    //implementacao do algoritmo para DESENQUADRAR
-}
-
-
-//////////////////////////////////////////////////////////////////////////
-//      Metodo CamadaEnlaceDadosReceptoraViolacaoDaCamadaFisica        //
-////////////////////////////////////////////////////////////////////////
-void CamadaEnlaceDadosReceptoraEnquadramentoViolacaoDaCamadaFisica(int quadro
-[]) {
+void CamadaEnlaceDadosReceptoraEnquadramentoInsercaoDeBits (int quadro[], int size) {
     //implementacao do algoritmo para DESENQUADRAR
 }
 
@@ -141,7 +197,7 @@ void CamadaEnlaceDadosReceptoraEnquadramentoViolacaoDaCamadaFisica(int quadro
 //////////////////////////////////////////////////////////////////////
 //      Metodo CamadaEnlaceDadosTransmissoraControleDeFluxo        //
 ////////////////////////////////////////////////////////////////////
-void CamadaEnlaceDadosTransmissoraControleDeFluxo (int quadro []) {
+void CamadaEnlaceDadosTransmissoraControleDeFluxo (int quadro [], int size) {
     //algum codigo aqui
 }
 
@@ -149,7 +205,7 @@ void CamadaEnlaceDadosTransmissoraControleDeFluxo (int quadro []) {
 /////////////////////////////////////////////////////////////////////
 //      Metodo CamadaEnlaceDadosTransmissoraControleDeErro        //
 ///////////////////////////////////////////////////////////////////
-void CamadaEnlaceDadosTransmissoraControleDeErro (int quadro []) {
+void CamadaEnlaceDadosTransmissoraControleDeErro (int quadro [], int size) {
     int tipoDeControleDeErro = 0; //alterar de acordo com o teste
 
     switch (tipoDeControleDeErro) {
@@ -171,8 +227,7 @@ void CamadaEnlaceDadosTransmissoraControleDeErro (int quadro []) {
 ///////////////////////////////////////////////////////////////////////////////////
 //      Metodo CamadaEnlaceDadosTransmissoraControledeErroBitParidadePar //
 /////////////////////////////////////////////////////////////////////////////////
-int CamadaEnlaceDadosTransmissoraControleDeErroBitParidadePar(int quadro[], int
-size) {
+int CamadaEnlaceDadosTransmissoraControleDeErroBitParidadePar(int quadro[], int size) {
     // Retorna o valor do bit de paridade que deve ser concatenado ao quadro
     int bitParidade = 0;
 
@@ -186,8 +241,7 @@ size) {
 /////////////////////////////////////////////////////////////////////////////////////
 //      Metodo CamadaEnlaceDadosTransmissoraControledeErroBitParidadeImpar //
 ///////////////////////////////////////////////////////////////////////////////////
-int CamadaEnlaceDadosTransmissoraControleDeErroBitParidadeImpar(int quadro[],
-int size) {
+int CamadaEnlaceDadosTransmissoraControleDeErroBitParidadeImpar(int quadro[], int size) {
     // Retorna o valor do bit de paridade que deve ser concatenado ao quadro
     return ! CamadaEnlaceDadosTransmissoraControleDeErroBitParidadePar(quadro,
 size);
@@ -197,18 +251,18 @@ size);
 ////////////////////////////////////////////////////////////////////////
 //      Metodo CamadaEnlaceDadosTransmissoraControledeErroCRC        //
 //////////////////////////////////////////////////////////////////////
-void CamadaEnlaceDadosTransmissoraControleDeErroCRC (int quadro []) {
+void CamadaEnlaceDadosTransmissoraControleDeErroCRC (int quadro [], int size) {
     //implementacao do algoritmo
     //usar polinomio CRC-32(IEEE 802)
 }
 
-*
+
 ////////////////////////////////////////////////////////////////////////////////////
 //      Metodo CamadaEnlaceDadosTransmissoraControleDeErroCodigoDehamming //
 //////////////////////////////////////////////////////////////////////////////////
-void CamadaEnlaceDadosTransmissoraControleDeErroCodigoDeHamming(int quadro[x]) {
+void CamadaEnlaceDadosTransmissoraControleDeErroCodigoDeHamming(int quadro [], int size) {
   std::vector<int> avec;
-  for (auto i = 0; i < x; i++) {
+  for (auto i = 0; i < size; i++) {
     avec.push_back(quadro[i]);
   }
   auto p1 = 0, p2 = 0, p4 = 0, p8 = 0;
@@ -249,10 +303,10 @@ void CamadaEnlaceDadosTransmissoraControleDeErroCodigoDeHamming(int quadro[x]) {
 ///////////////////////////////////////////
 //      Metodo MeioDeTransmissao        //
 /////////////////////////////////////////
-void MeioDeComunicacao(int fluxoBrutoDeBits[]) {
+void MeioDeComunicacao(int fluxoBrutoDeBits[], int size) {
   // OBS: trabalhar com BITS e nao com BYTES!!!
   int erro, porcentagemDeErros;
-  int fluxoBrutoDeBitsPontoA[], fluxoBrutoDeBitsPontoB[];
+  int fluxoBrutoDeBitsPontoA[size], fluxoBrutoDeBitsPontoB[size];
 
   porcentagemDeErros = 0; // 10%, 20%, 30%, 40%, ..., 100%
   fluxoBrutoDeBitsPontoA = fluxoBrutoDeBits;
@@ -270,7 +324,7 @@ void MeioDeComunicacao(int fluxoBrutoDeBits[]) {
 ///////////////////////////////////////////////////////////////////
 //      Metodo CamadaEnlaceDadosReceptoraControleDeFluxo        //
 /////////////////////////////////////////////////////////////////
-void CamadaEnlaceDadosReceptoraControleDeFluxo(int quadro[]) {
+void CamadaEnlaceDadosReceptoraControleDeFluxo(int quadro[], int size) {
   // algum codigo aqui
 }
 
@@ -298,8 +352,7 @@ void CamadaEnlaceDadosReceptoraControleDeErro(int quadro[]) {
 //////////////////////////////////////////////////////////////////////////////////
 //      Metodo CamadaEnlaceDadosReceptoraControleDeErroBitDeParidadePar //
 ////////////////////////////////////////////////////////////////////////////////
-int CamadaEnlaceDadosReceptoraControleDeErroBitDeParidadePar(int quadro[],
-                                                             int size) {
+int CamadaEnlaceDadosReceptoraControleDeErroBitDeParidadePar(int quadro[], int size) {
   // implementacao do algoritmo para VERIFICAR SE HOUVE ERRO
   int bitParidade;
 
