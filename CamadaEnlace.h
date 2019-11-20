@@ -18,7 +18,7 @@ void CamadaEnlaceDadosReceptora (int quadro[]);
 
 void CamadaEnlaceDadosReceptoraEnquadramento (int quadro[]);
 
-void CamadaEnlaceDadosReceptoraEnquadramentoContagemDeCaracteres (int quadro[]);
+void CamadaEnlaceDadosReceptoraEnquadramentoContagemDeCaracteres (int quadro[], size);
 
 void CamadaEnlaceDadosReceptoraEnquadramentoInsercaoDeBytes (int quadro[]);
 
@@ -27,9 +27,9 @@ void CamadaEnlaceDadosReceptoraEnquadramentoInsercaoDeBits (int quadro[]);
 void CamadaEnlaceDadosReceptoraEnquadramentoViolacaoDaCamadaFisica(int quadro[]);
 
 void CamadaEnlaceDadosTransmissoraControleDeFluxo (int quadro[]);
-
-void CamadaEnlaceDadosTransmissoraControleDeErro (int quadro[]);
 */
+void CamadaEnlaceDadosTransmissoraControleDeErro (int quadro[], int size);
+/*
 
 /* Calcula o bit de paridade do quadro para que sua paridade seja par.
  * Args:
@@ -38,9 +38,9 @@ void CamadaEnlaceDadosTransmissoraControleDeErro (int quadro[]);
  * Return:
  *    bitParidade, valor 0 ou 1 que deve ser concatenado ao quadro para que sua
  *          paridade seja par.
-
-int CamadaEnlaceDadosTransmissoraControleDeErroBitParidadePar (int quadro[], int size_quadro);
-
+*/
+void CamadaEnlaceDadosTransmissoraControleDeErroBitParidadePar (int quadro[], int size_quadro);
+/*
 /* Calcula o bit de paridade do quadro para que sua paridade seja ímpar.
  * Args:
  *    quadro, vetor de bits.
@@ -48,9 +48,9 @@ int CamadaEnlaceDadosTransmissoraControleDeErroBitParidadePar (int quadro[], int
  * Return:
  *    bitParidade, valor 0 ou 1 que deve ser concatenado ao quadro para que sua
  *          paridade seja ímpar.
-
-int CamadaEnlaceDadosTransmissoraControleDeErroBitParidadeImpar (int quadro[], int size_quadro);
-
+*/
+void CamadaEnlaceDadosTransmissoraControleDeErroBitParidadeImpar (int quadro[], int size_quadro);
+/*
 
 void CamadaEnlaceDadosTransmissoraControleDeErroCRC (int quadro[]);
 
@@ -59,7 +59,6 @@ void CamadaEnlaceDadosTransmissoraControleDeErroCodigoDeHamming (int quadro[]);
 void CamadaEnlaceDadosReceptoraControleDeFluxo ( int quadro[]);
 
 void CamadaEnlaceDadosReceptoraControleDeErro (int quadro[]);
-*/
 
 /* Calcula o bit de paridade do quadro recebido, retorna 1 no caso em que a
  * transmissão foi bem sucedida, 0 caso contrário.
@@ -69,7 +68,7 @@ void CamadaEnlaceDadosReceptoraControleDeErro (int quadro[]);
  * Return:
  *    sucesso, valor 1 ou 0 indicando o sucesso da operação ou não, respectivamente.
 
-int CamadaEnlaceDadosReceptoraControleDeErroBitDeParidadePar (int quadro[], int size);
+void CamadaEnlaceDadosReceptoraControleDeErroBitDeParidadePar (int quadro[], int size);
 
 /* Calcula o bit de paridade do quadro recebido, retorna 1 no caso em que a
  * transmissão foi bem sucedida, 0 caso contrário.
@@ -79,7 +78,7 @@ int CamadaEnlaceDadosReceptoraControleDeErroBitDeParidadePar (int quadro[], int 
  * Return:
  *    sucesso, valor 1 ou 0 indicando o sucesso da operação ou não, respectivamente.
 
-int CamadaEnlaceDadosReceptoraControleDeErroBitDeParidadeImpar (int quadro[], int size);
+void CamadaEnlaceDadosReceptoraControleDeErroBitDeParidadeImpar (int quadro[], int size);
 
 /*
 void CamadaEnlaceDadosReceptoraControleDeErroCRC (int quadro[]);

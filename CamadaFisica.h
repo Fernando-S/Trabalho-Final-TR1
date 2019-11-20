@@ -14,7 +14,7 @@ void CamadaFisicaTransmissora (int quadro[], int size);
 void CamadaFisicaTransmissoraCodificacaoBinaria (int quadro [], int size);
 
 
-/* Realiza a codificação manchester de um quadro de dados, segundo a convenção 
+/* Realiza a codificação manchester de um quadro de dados, segundo a convenção
  * de G. E. Thomas.
  *
  * Args:

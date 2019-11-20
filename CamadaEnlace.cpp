@@ -1,4 +1,5 @@
 #include "CamadaEnlace.h"
+#include "CamadaFisica.h"
 #include "iostream"
 #include "vector"
 
@@ -102,11 +103,13 @@ void CamadaDeEnlaceTransmissoraEnquadramentoContagemDeCaracteres (int quadro [],
       j++;
       i--;
     }
-
+    cout<<"\nEnquadramento por contagem de caracteres: " << endl;
     for(i=0; i<newsize; i++){
       cout << newquadro[i];
     }
-    cout << "\nEnquadramento completo";
+
+    CamadaEnlaceDadosTransmissoraControleDeErro(newquadro, newsize);
+
 }
 
 /*
@@ -129,7 +132,7 @@ void CamadaEnlaceDadosTransmissoraEnquadramentoInsercaoDeBits (int quadro [], in
 ////////////////////////////////////////////////////
 //      Metodo CamadaEnlaceDadosReceptora        //
 //////////////////////////////////////////////////
-*/
+
 void CamadaEnlaceDadosReceptora (int quadro [], int size) {
     CamadaDeEnlaceReceptoraEnquadramento(quadro,size);
 //    CamadaDeEnlaceReceptoraControleDeErro(quadro,size);
@@ -164,7 +167,7 @@ void CamadaEnlaceDadosReceptoraEnquadramento (int quadro [], int size) {
 ////////////////////////////////////////////////////////////////////////
 //      Metodo CamadaEnlaceDadosReceptoraContagemDeCaracteres        //
 //////////////////////////////////////////////////////////////////////
-*/
+
 void CamadaEnlaceDadosReceptoraEnquadramentoContagemDeCaracteres (int quadro [], int size)
 {
     //implementacao do algoritmo para DESENQUADRAR
@@ -205,15 +208,17 @@ void CamadaEnlaceDadosTransmissoraControleDeFluxo (int quadro [], int size) {
 /////////////////////////////////////////////////////////////////////
 //      Metodo CamadaEnlaceDadosTransmissoraControleDeErro        //
 ///////////////////////////////////////////////////////////////////
+*/
 void CamadaEnlaceDadosTransmissoraControleDeErro (int quadro [], int size) {
     int tipoDeControleDeErro = 0; //alterar de acordo com o teste
-
+//    cout << "Tipo de controle de erro (0: bit de paridade par, 1: bit de paridade impar)";
+  //  cin >> tipoDeControleDeErro;
     switch (tipoDeControleDeErro) {
         case 0 : //bit de paridade par
-            //codigo
+            CamadaEnlaceDadosTransmissoraControleDeErroBitParidadePar(quadro, size);
             break;
         case 1 : //bit de paridade impar
-            //codigo
+            CamadaEnlaceDadosTransmissoraControleDeErroBitParidadeImpar(quadro, size);
             break;
         case 2 : //CRC
             //codigo
@@ -227,26 +232,44 @@ void CamadaEnlaceDadosTransmissoraControleDeErro (int quadro [], int size) {
 ///////////////////////////////////////////////////////////////////////////////////
 //      Metodo CamadaEnlaceDadosTransmissoraControledeErroBitParidadePar //
 /////////////////////////////////////////////////////////////////////////////////
-int CamadaEnlaceDadosTransmissoraControleDeErroBitParidadePar(int quadro[], int size) {
+void CamadaEnlaceDadosTransmissoraControleDeErroBitParidadePar(int quadro[], int size) {
     // Retorna o valor do bit de paridade que deve ser concatenado ao quadro
     int bitParidade = 0;
-
+    int newquadro[size+1];
+    int i=0;
     for(int i = 0; i < size; i++) {
         bitParidade ^= quadro[i];
     }
-    return bitParidazde;
+    for(i=0; i<size; i++){
+      newquadro[i] = quadro[i];
+    }
+    newquadro[size] = bitParidade;
+
+    //chamar próxima funcao
+    CamadaFisicaTransmissora(newquadro, size+1);
 }
 
 
 /////////////////////////////////////////////////////////////////////////////////////
 //      Metodo CamadaEnlaceDadosTransmissoraControledeErroBitParidadeImpar //
 ///////////////////////////////////////////////////////////////////////////////////
-int CamadaEnlaceDadosTransmissoraControleDeErroBitParidadeImpar(int quadro[], int size) {
+void CamadaEnlaceDadosTransmissoraControleDeErroBitParidadeImpar(int quadro[], int size) {
     // Retorna o valor do bit de paridade que deve ser concatenado ao quadro
-    return ! CamadaEnlaceDadosTransmissoraControleDeErroBitParidadePar(quadro,
-size);
-}
+    int bitParidade = 0;
+    int newquadro[size+1];
+    int i=0;
+    for(int i = 0; i < size; i++) {
+        bitParidade ^= quadro[i];
+    }
+    for(i=0; i<size; i++){
+      newquadro[i] = quadro[i];
+    }
+    newquadro[size] = bitParidade ^= '1';
 
+  //chamar proxima funcao
+  CamadaFisicaTransmissora(newquadro, size+1);
+}
+/*
 
 ////////////////////////////////////////////////////////////////////////
 //      Metodo CamadaEnlaceDadosTransmissoraControledeErroCRC        //
