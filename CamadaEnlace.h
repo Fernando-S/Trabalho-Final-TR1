@@ -38,7 +38,7 @@ void CamadaEnlaceDadosTransmissoraControleDeErro (int quadro[]);
  * Return:
  *    bitParidade, valor 0 ou 1 que deve ser concatenado ao quadro para que sua
  *          paridade seja par.
- */
+
 int CamadaEnlaceDadosTransmissoraControleDeErroBitParidadePar (int quadro[], int size_quadro);
 
 /* Calcula o bit de paridade do quadro para que sua paridade seja ímpar.
@@ -48,10 +48,10 @@ int CamadaEnlaceDadosTransmissoraControleDeErroBitParidadePar (int quadro[], int
  * Return:
  *    bitParidade, valor 0 ou 1 que deve ser concatenado ao quadro para que sua
  *          paridade seja ímpar.
- */
+
 int CamadaEnlaceDadosTransmissoraControleDeErroBitParidadeImpar (int quadro[], int size_quadro);
 
-/*
+
 void CamadaEnlaceDadosTransmissoraControleDeErroCRC (int quadro[]);
 
 void CamadaEnlaceDadosTransmissoraControleDeErroCodigoDeHamming (int quadro[]);
@@ -68,7 +68,7 @@ void CamadaEnlaceDadosReceptoraControleDeErro (int quadro[]);
  *    size_quadro, número de elementos do quadro.
  * Return:
  *    sucesso, valor 1 ou 0 indicando o sucesso da operação ou não, respectivamente.
- */
+
 int CamadaEnlaceDadosReceptoraControleDeErroBitDeParidadePar (int quadro[], int size);
 
 /* Calcula o bit de paridade do quadro recebido, retorna 1 no caso em que a 
@@ -78,7 +78,7 @@ int CamadaEnlaceDadosReceptoraControleDeErroBitDeParidadePar (int quadro[], int 
  *    size_quadro, número de elementos do quadro.
  * Return:
  *    sucesso, valor 1 ou 0 indicando o sucesso da operação ou não, respectivamente.
- */
+
 int CamadaEnlaceDadosReceptoraControleDeErroBitDeParidadeImpar (int quadro[], int size);
 
 /*

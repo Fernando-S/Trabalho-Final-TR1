@@ -164,7 +164,7 @@ void CamadaEnlaceDadosTransmissoraControleDeErro (int quadro []) {
             break;
     }
 }
-*/
+
 
 ///////////////////////////////////////////////////////////////////////////////////
 //      Metodo CamadaEnlaceDadosTransmissoraControledeErroBitParidadePar        //
@@ -188,7 +188,7 @@ int CamadaEnlaceDadosTransmissoraControleDeErroBitParidadeImpar(int quadro[], in
     return ! CamadaEnlaceDadosTransmissoraControleDeErroBitParidadePar(quadro, size);
 }
 
-/*
+
 ////////////////////////////////////////////////////////////////////////
 //      Metodo CamadaEnlaceDadosTransmissoraControledeErroCRC        //
 //////////////////////////////////////////////////////////////////////
@@ -257,7 +257,7 @@ void CamadaEnlaceDadosReceptoraControleDeErro (int quadro []) {
             break;
     }
 }
-*/
+
 
 //////////////////////////////////////////////////////////////////////////////////
 //      Metodo CamadaEnlaceDadosReceptoraControleDeErroBitDeParidadePar        //
