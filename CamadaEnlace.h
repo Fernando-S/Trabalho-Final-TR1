@@ -1,13 +1,13 @@
 #ifndef CAMADA_ENLACE_H
 #define CAMADA_ENLACE_H
 
+
+void CamadaEnlaceDadosTransmissora (int quadro[],int size);
+
+void CamadaEnlaceDadosTransmissoraEnquadramento (int quadro[], int size);
+
+void CamadaDeEnlaceTransmissoraEnquadramentoContagemDeCaracteres (int quadro[], int size);
 /*
-void CamadaEnlaceDadosTransmissora (int quadro[]);
-
-void CamadaEnlaceDadosTransmissoraEnquadramento (int quadro[]);
-
-void CamadaEnlaceDadosTransmissoraEnquadramentoContagemDeCaracteres (int quadro[]);
-
 void CamadaEnlaceDadosTransmissoraEnquadramentoInsercaoDeBytes (int quadro[]);
 
 void CamadaEnlaceDadosTransmissoraEnquadramentoInsercaoDeBits (int quadro[]);
@@ -61,7 +61,7 @@ void CamadaEnlaceDadosReceptoraControleDeFluxo ( int quadro[]);
 void CamadaEnlaceDadosReceptoraControleDeErro (int quadro[]);
 */
 
-/* Calcula o bit de paridade do quadro recebido, retorna 1 no caso em que a 
+/* Calcula o bit de paridade do quadro recebido, retorna 1 no caso em que a
  * transmissão foi bem sucedida, 0 caso contrário.
  * Args:
  *    quadro, vetor de bits.
@@ -71,7 +71,7 @@ void CamadaEnlaceDadosReceptoraControleDeErro (int quadro[]);
 
 int CamadaEnlaceDadosReceptoraControleDeErroBitDeParidadePar (int quadro[], int size);
 
-/* Calcula o bit de paridade do quadro recebido, retorna 1 no caso em que a 
+/* Calcula o bit de paridade do quadro recebido, retorna 1 no caso em que a
  * transmissão foi bem sucedida, 0 caso contrário.
  * Args:
  *    quadro, vetor de bits.
