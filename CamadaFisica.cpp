@@ -204,10 +204,11 @@ int* CamadaFisicaReceptoraCodificacaoBinaria (int quadro []) {
 ///////////////////////////////////////////////////////////////////
 //		Metodo CamadaFisicaReceptoraDecodificacaoManchester		//
 /////////////////////////////////////////////////////////////////
-
-int* CamadaFisicaReceptoraDecodificacaoManchester (int quadro [], int size) {
-
-//	CamadaDeAplicacaoReceptora(quadroDecod, size);
+void CamadaFisicaReceptoraDecodificacaoManchester (int* manchester, int size, int* quadro) {
+	// Assumindo que o clock inicia em 0 e adotada a convenção de G. E. Thomas.
+    for (int i = 0; i < size/2; i++) {
+        quadro[i] = bitXnor(manchester[2*i], 0);
+    }
 }
 
 
