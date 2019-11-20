@@ -32,6 +32,30 @@ void CamadaDeAplicacaoTransmissora (string mensagem) {
             msg[m] /= 2;
             i++;
         }
+        if(i == 6){
+          quadro_invertido[i] = 0;
+          i++;
+        }
+        if(i == 5){
+          for(i = 5; i<8; i++)
+            quadro_invertido[i] = 0;
+        }
+        if(i == 4){
+          for(i = 4; i<8; i++)
+            quadro_invertido[i] = 0;
+        }
+        if(i == 3){
+          for(i = 3; i<8; i++)
+            quadro_invertido[i] = 0;
+        }
+        if(i == 2){
+          for(i = 2; i<8; i++)
+            quadro_invertido[i] = 0;
+        }
+        if(i == 1){
+          for(i = 1; i<8; i++)
+            quadro_invertido[i] = 0;
+        }
         size += i;
         int j = i-1;
         soma = o + i;
@@ -41,7 +65,10 @@ void CamadaDeAplicacaoTransmissora (string mensagem) {
             j--;
         }
     }
-
+    for(i=0; i<size; i++){
+      cout << quadro[i];
+    }
+//  CamadaEnlaceDadosTransmissora(quadro,size);
     CamadaFisicaTransmissora(quadro, size);
 }
 
@@ -53,21 +80,40 @@ void AplicacaoTransmissora (void) {
     string mensagem;
 
     cout << "Digite uma mensagem:" << endl;
-    cin >> mensagem;
+    getline(cin, mensagem);
 
     //chama a proxima camada
     CamadaDeAplicacaoTransmissora(mensagem); //em um exemplo mais realistico, aqui seria dado um SEND do SOCKET
 }
 
 
+/*
+string binarioparastring(int* vetor, int n) {
+    int k, c, i = 0, j = 0;
+    char retorno[n / 8];
+
+    for (c = 0; c < n; c += 8) {
+        j = 0;
+        for (k = 0; k < 8; k++) {
+            i = (vetor[n] * 128) + (vetor[n + 1] * 64) + (vetor[n + 2] * 32) +
+                (vetor[n + 3] * 16) + (vetor[n + 4] * 8) + (vetor[n + 5] * 4) + (vetor[n + 6] * 2) + (vetor[n + 7] * 1);
+            retorno[j] = i;
+            j++;
+        }
+    }
+
+    return retorno;
+}
+*/
 ///////////////////////////
 //		Metodo Main		//
 /////////////////////////
 int main (void) {
-
+/*    int a[8] = {0,0,0,0,0,0,0,1};
+    cout << binarioparastring(a, 4) << endl;
+    char b = 94;
+    cout << b << endl;
+*/
     AplicacaoTransmissora();
-
     return 0;
 }
-
-
