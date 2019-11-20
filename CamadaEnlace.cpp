@@ -202,7 +202,7 @@ void CamadaEnlaceDadosTransmissoraControleDeErroCRC (int quadro []) {
     //usar polinomio CRC-32(IEEE 802)
 }
 
-*/
+*
 ////////////////////////////////////////////////////////////////////////////////////
 //      Metodo CamadaEnlaceDadosTransmissoraControleDeErroCodigoDehamming //
 //////////////////////////////////////////////////////////////////////////////////
@@ -370,3 +370,4 @@ void CamadaEnlaceDadosReceptoraControleDeErroCodigoDeHamming(int quadro[x]) {
 
   std::cout << "não houve erro com o código de hamming";
 }
+*/

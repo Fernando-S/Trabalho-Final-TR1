@@ -1,8 +1,8 @@
-#include "CamadaFisica.h"
 #include <bits/stdc++.h>
 #include <cstdlib>
 #include <iostream>
 #include <string>
+//#include "CamadaFisica.h"
 
 using namespace std;
 
@@ -11,12 +11,10 @@ string binarioparastring(int *vetor, int n) {
   uint i = 0;
 
   std::vector<char> ret;
-  for (c = 0; c < n; c += 8) {
-
-    i = (vetor[c] * 128) + (vetor[c + 1] * 64) + (vetor[c + 2] * 32) +
-        (vetor[c + 3] * 16) + (vetor[c + 4] * 8) + (vetor[c + 5] * 4) +
-        (vetor[c + 6] * 2) + (vetor[c + 7] * 1);
-
+  for (c = 0; c < n; c += 7) {
+    i = /*(vetor[c] * 128)*/ + (vetor[c /*+ 1*/] * 64) + (vetor[c + 1] * 32) +
+        (vetor[c + 2] * 16) + (vetor[c + 3] * 8) + (vetor[c + 4] * 4) +
+        (vetor[c + 5] * 2) + (vetor[c + 6] * 1);
     ret.push_back(static_cast<char>(i));
   }
   ret.push_back('\0');
@@ -28,10 +26,10 @@ string binarioparastring(int *vetor, int n) {
 //		Metodo Main		//
 /////////////////////////
 int main(void) {
-  int a[48] = {0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1,
+  /*int a[48] = {0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1,
                0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1,
                0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1};
-  vector<int> avec;
+  /*vector<int> avec;
   for (auto i = 0; i < 8; i++) {
     avec.push_back(a[i]);
   }
@@ -42,9 +40,12 @@ int main(void) {
   cout << "d eh: " << d << endl;
   //   cout << "b eh: " << b << endl;
   cout << "c eh: " << c << endl;
-
+*/
+  int a[21] = {1,1,0,0,0,0,1,0,1,0,0,0,0,0,1,1,0,0,0,1,0};
+  cout << binarioparastring(a, 21) << endl;
   return 0;
 }
+/*
 // codigodehamming1 codifica o dado no codigo de hamming byte a byte
 std::vector<int> codigodehamming1(vector<int> avec) {
   auto p1 = 0, p2 = 0, p4 = 0, p8 = 0;
@@ -131,3 +132,4 @@ int *entryfleu(int *a, int len) {
   }
   return avec.data();
 }
+ */
