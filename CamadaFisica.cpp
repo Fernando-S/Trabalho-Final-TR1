@@ -24,14 +24,12 @@ void CamadaFisicaTransmissora (int quadro[], int size) {
 
     cout << endl;
 
-    int* manchester = (int*) malloc(2 * size); //< Utilizado para receber a resposta da codificação manchester
-
 	switch (tipoDeCodificacao) {
 		case 0 : //codificao binaria
 		    CamadaFisicaTransmissoraCodificacaoBinaria(quadro, size);
             break;
 		case 1 : //codificacao manchester
-            CamadaFisicaTransmissoraCodificacaoManchester(quadro, size, manchester);
+            CamadaFisicaTransmissoraCodificacaoManchester(quadro, size);
 			break;
 		case 2 : //codificacao manchester diferencial
 			CamadaFisicaTransmissoraCodificacaoManchesterDiferencial(quadro, size);
@@ -51,23 +49,14 @@ void CamadaFisicaTransmissoraCodificacaoBinaria (int quadro [], int size) {
 ///////////////////////////////////////////////////////////////////////
 //		Metodo CamadaFisicaTransmissoraCodificacaoManchester		//
 /////////////////////////////////////////////////////////////////////
-void CamadaFisicaTransmissoraCodificacaoManchester (int* quadro, int size, int* manchester) {
+void CamadaFisicaTransmissoraCodificacaoManchester (int* quadro, int size) {
 	// Assumindo que o clock inicia em 0 e adotada a convenção de G. E. Thomas.
     // Material que mais auxiliou a compreender a lógica manchester:
     // https://github.com/sdht0/manchester-encoding/blob/master/screenshot.jpg
     int i;
+    int manchester[2*size];
 
-    for(i = 0; i<size; i++){
-        manchester[2*i] = 0;        //vai ser inicialmente o clock, para fazer as modificações em cima desse vetor
-        manchester[2*i + 1] = 1;
-    }
-
-    for (i=0; i< 2*size; i++){
-        cout << manchester[i];
-    }
-
-
-    for (i = 0; i < 2*size; i++) {
+    for (i = 0; i < size; i++) {
         manchester[2*i] = bitXnor(0, quadro[i]);
         manchester[2*i +1] = bitXnor(1, quadro[i]);
     }
@@ -168,7 +157,7 @@ void MeioDeComunicacao (int fluxoBrutoDeBits[], int size, int tipoDeDecodificaca
             CamadaFisicaReceptora(fluxoBrutoDeBitsPontoB, size, tipoDeDecodificacao);
             break;
         case 1:
-            CamadaFisicaReceptora(fluxoBrutoDeBitsPontoB, size/2, tipoDeDecodificacao);
+            CamadaFisicaReceptora(fluxoBrutoDeBitsPontoB, size, tipoDeDecodificacao);
             break;
         case 2:
             CamadaFisicaReceptora(fluxoBrutoDeBitsPontoB, size/2, tipoDeDecodificacao);
@@ -182,14 +171,12 @@ void MeioDeComunicacao (int fluxoBrutoDeBits[], int size, int tipoDeDecodificaca
 /////////////////////////////////////////////
 void CamadaFisicaReceptora (int quadro[], int size, int tipoDeDecodificacao) {
 
-    int* manchester = (int*) malloc(2 * size); //< Utilizado para receber a resposta da codificação manchester
-
     switch (tipoDeDecodificacao) {
         case 0 : //codificao binaria
             CamadaFisicaReceptoraDecodificacaoBinaria(quadro, size);
             break;
         case 1 : //codificacao manchester
-            CamadaFisicaReceptoraDecodificacaoManchester(quadro, size, manchester);
+            CamadaFisicaReceptoraDecodificacaoManchester(quadro, size);
             break;
         case 2 : //codificacao manchester diferencial
             CamadaFisicaReceptoraDecodificacaoManchesterDiferencial(quadro, size);
@@ -209,19 +196,21 @@ void CamadaFisicaReceptoraDecodificacaoBinaria (int quadro[], int size) {
 ///////////////////////////////////////////////////////////////////
 //		Metodo CamadaFisicaReceptoraDecodificacaoManchester		//
 /////////////////////////////////////////////////////////////////
-void CamadaFisicaReceptoraDecodificacaoManchester (int* manchester, int size, int* quadro) {
+void CamadaFisicaReceptoraDecodificacaoManchester (int* manchester, int manchester_size) {
 	// Assumindo que o clock inicia em 0 e adotada a convenção de G. E. Thomas.
-    for (int i = 0; i < size; i++) {
+    int quadro[manchester_size/2];
+
+    for (int i = 0; i < manchester_size/2; i++) {
         quadro[i] = bitXnor(manchester[2*i], 0);
     }
 
-    cout << "O quadro decodificado eh: ";
-    for (int i= 0; i< size; i++){
+    cout << "\nO quadro decodificado eh: ";
+    for (int i= 0; i< manchester_size/2; i++){
         cout << quadro[i];
     }
     cout << endl;
 
-    CamadaDeAplicacaoReceptora(quadro, size);
+    CamadaDeAplicacaoReceptora(quadro, manchester_size/2);
 }
 
 

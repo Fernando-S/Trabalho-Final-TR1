@@ -24,7 +24,7 @@ void CamadaFisicaTransmissoraCodificacaoBinaria (int quadro [], int size);
  *        quadro com a codificação Manchester estará nesses endereços após a
  *        execução desta função.
  */
-void CamadaFisicaTransmissoraCodificacaoManchester (int quadro[], int quadro_size, int* manchester);
+void CamadaFisicaTransmissoraCodificacaoManchester (int quadro[], int quadro_size);
 
 void CamadaFisicaTransmissoraCodificacaoManchesterDiferencial(int quadro[], int size);
 
@@ -34,7 +34,7 @@ void CamadaFisicaReceptora (int quadro[], int size, int tipoDeDecodificacao);
 
 void CamadaFisicaReceptoraDecodificacaoBinaria (int quadro[], int size);
 
-void CamadaFisicaReceptoraDecodificacaoManchester (int* manchester, int size, int* quadro);
+void CamadaFisicaReceptoraDecodificacaoManchester (int* manchester, int size);
 
 void CamadaFisicaReceptoraDecodificacaoManchesterDiferencial(int quadro[], int size);
 
