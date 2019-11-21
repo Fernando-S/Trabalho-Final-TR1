@@ -9,9 +9,9 @@
 
 using namespace std;
 
-void CamadaFisicaTransmissora (int quadro[], int size);
+void CamadaFisicaTransmissora (int quadro[], int size,int tipoDeControleDeErro);
 
-void CamadaFisicaTransmissoraCodificacaoBinaria (int quadro [], int size);
+void CamadaFisicaTransmissoraCodificacaoBinaria (int quadro [], int size, int tipoDeControleDeErro);
 
 
 /* Realiza a codificação manchester de um quadro de dados, segundo a convenção
@@ -24,27 +24,27 @@ void CamadaFisicaTransmissoraCodificacaoBinaria (int quadro [], int size);
  *        quadro com a codificação Manchester estará nesses endereços após a
  *        execução desta função.
  */
-void CamadaFisicaTransmissoraCodificacaoManchester (int quadro[], int quadro_size);
+void CamadaFisicaTransmissoraCodificacaoManchester (int quadro[], int quadro_size, int tipoDeControleDeErro);
 
-void CamadaFisicaTransmissoraCodificacaoManchesterDiferencial(int quadro[], int size);
+void CamadaFisicaTransmissoraCodificacaoManchesterDiferencial(int quadro[], int size, int tipoDeControleDeErro);
 
-void MeioDeComunicacao (int fluxoBrutoDeBits[], int size, int tipoDeDecodificacao);
+void MeioDeComunicacao (int fluxoBrutoDeBits[], int size, int tipoDeDecodificacao, int tipoDeControleDeErro);
 
-void CamadaFisicaReceptora (int quadro[], int size, int tipoDeDecodificacao);
+void CamadaFisicaReceptora (int quadro[], int size, int tipoDeDecodificacao, int tipoDeControleDeErro);
 
-void CamadaFisicaReceptoraDecodificacaoBinaria (int quadro[], int size);
+void CamadaFisicaReceptoraDecodificacaoBinaria (int quadro[], int size, int tipoDeControleDeErro);
 
-void CamadaFisicaReceptoraDecodificacaoManchester (int* manchester, int size);
+void CamadaFisicaReceptoraDecodificacaoManchester (int* manchester, int size, int tipoDeControleDeErro);
 
-void CamadaFisicaReceptoraDecodificacaoManchesterDiferencial(int quadro[], int size);
+void CamadaFisicaReceptoraDecodificacaoManchesterDiferencial(int quadro[], int size, int tipoDeControleDeErro);
 
-void CamadaDeAplicacaoReceptora (int quadro[], int size);
+//void CamadaDeAplicacaoReceptora (int quadro[], int size);
 
-void AplicacaoReceptora (string mensagem);
+//void AplicacaoReceptora (string mensagem);
 
 // Realiza a operação a XNOR b.
 int bitXnor(int a, int b);
 
-string binarioparastring(int* vetor, int size);
+//string binarioparastring(int* vetor, int size);
 
 #endif // CAMADA_FISICA_H

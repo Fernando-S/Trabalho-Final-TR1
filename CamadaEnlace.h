@@ -7,6 +7,28 @@ void CamadaEnlaceDadosTransmissora (int quadro[],int size);
 void CamadaEnlaceDadosTransmissoraEnquadramento (int quadro[], int size);
 
 void CamadaDeEnlaceTransmissoraEnquadramentoContagemDeCaracteres (int quadro[], int size);
+
+void CamadaEnlaceDadosReceptoraEnquadramento (int quadro [], int size);
+
+void CamadaEnlaceDadosReceptoraEnquadramentoContagemDeCaracteres (int quadro [], int size);
+
+void CamadaEnlaceDadosTransmissoraControleDeErro (int quadro [], int size);
+
+void CamadaEnlaceDadosTransmissoraControleDeErroBitParidadePar(int quadro[], int size);
+
+void CamadaEnlaceDadosTransmissoraControleDeErroBitParidadeImpar(int quadro[], int size);
+
+void MeioDeComunicacao(int fluxoBrutoDeBits[], int size, int tipoDeControleDeErro);
+
+void CamadaEnlaceDadosReceptoraControleDeErro(int quadro[], int size, int tipoDeControleDeErro);
+
+void CamadaEnlaceDadosReceptoraControleDeErroBitDeParidadePar(int quadro[], int size);
+
+int CamadaEnlaceDadosReceptoraControleDeErroBitDeParidadeImpar(int quadro[],int size);
+
+void CamadaEnlaceDadosReceptora (int quadro [], int size, int tipoDeControleDeErro);
+
+
 /*
 void CamadaEnlaceDadosTransmissoraEnquadramentoInsercaoDeBytes (int quadro[]);
 
