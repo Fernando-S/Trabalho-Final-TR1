@@ -3,6 +3,8 @@
 #include "Simulador.h"
 #include "iostream"
 #include "vector"
+#include <time.h>
+#include <stdlib.h>
 
 using namespace std;
 
@@ -324,32 +326,6 @@ void CamadaEnlaceDadosTransmissoraControleDeErroCodigoDeHamming(int quadro [], i
   std::cout << std::endl;
 }
 */
-///////////////////////////////////////////
-//      Metodo MeioDeTransmissao        //
-/////////////////////////////////////////
-void MeioDeComunicacao(int fluxoBrutoDeBits[], int size, int tipoDeControleDeErro) {
-  int fluxoBrutoDeBitsPontoA[size], fluxoBrutoDeBitsPontoB[size], i;
-
-  cout << "O fluxo de bits que parte do ponto A eh: ";
-  for(i=0; i<size; i++){
-     fluxoBrutoDeBitsPontoA[i] = fluxoBrutoDeBits[i];
-     cout << fluxoBrutoDeBitsPontoA[i];
-  }
-  cout << endl;
-
-  cout << "O fluxo de bits que chega no ponto B eh: ";
-  for(i = 0; i< size; i++) {
-      fluxoBrutoDeBitsPontoB[i] = fluxoBrutoDeBitsPontoA[i];
-      cout << fluxoBrutoDeBitsPontoB[i];//BITS! Sendo transferidos
-  }
-  cout << endl;
-
-  //chama proxima camada
-  CamadaEnlaceDadosReceptoraControleDeErro(fluxoBrutoDeBitsPontoB, size, tipoDeControleDeErro);
-
-}
-
-
 
   // OBS: trabalhar com BITS e nao com BYTES!!!
   /*

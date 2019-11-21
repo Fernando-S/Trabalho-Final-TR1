@@ -146,7 +146,31 @@ void MeioDeComunicacao (int fluxoBrutoDeBits[], int size, int tipoDeDecodificaca
     }
     cout << endl;
 
-    cout << "O fluxo de bits que chega no ponto B eh: ";
+		//SIMULACAO DE ERRO:
+		srand(time(NULL));
+
+		int porcentagemDeErros; //de 0 a 100%
+		int numeroSorteado;
+		cout << endl;
+		cout << "Iniciando simulacao de erro.\nDigite uma porcentagem para a taxa de erros de cada bit: ";
+		cin >> porcentagemDeErros;
+
+		for(i = 0; i<size; i++){
+	    numeroSorteado = rand() % 100;
+	    if(numeroSorteado < porcentagemDeErros){
+	      cout << "\nBit" << i << ": ";
+	      fluxoBrutoDeBitsPontoA[i] ^= 1;
+	      cout << fluxoBrutoDeBitsPontoA[i];
+				cout << "(com erro simulado)";
+	    }
+	    else{
+	      cout << "\nBit" << i << ": ";
+	      cout << fluxoBrutoDeBitsPontoA[i];
+				cout << "(sem erro simulado)";
+	      }
+	    }
+		cout << endl;
+    cout << "\nO fluxo de bits que chega no ponto B eh: ";
     for(i = 0; i< size; i++) {
         fluxoBrutoDeBitsPontoB[i] = fluxoBrutoDeBitsPontoA[i];
         cout << fluxoBrutoDeBitsPontoB[i];//BITS! Sendo transferidos

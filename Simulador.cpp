@@ -5,6 +5,8 @@
 #include "CamadaFisica.h"
 #include "CamadaEnlace.h"
 #include "Simulador.h"
+#include <time.h>
+#include <stdlib.h>
 
 using namespace std;
 
