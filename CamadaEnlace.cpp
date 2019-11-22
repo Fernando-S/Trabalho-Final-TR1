@@ -6,7 +6,23 @@
 #include <time.h>
 #include <stdlib.h>
 
+// Verifica de MSG[IDX] até MSG[IDX+7] se é idêntico a FLAGorESC[0] até FLAGorESC[7]
+#define isFlagOrEscape(MSG,IDX,FLAGorESC) ((MSG[IDX]==FLAGorESC[0] && MSG[IDX+1]==FLAGorESC[1] && \
+    MSG[IDX+2]==FLAGorESC[2] && MSG[IDX+3]==FLAGorESC[3] && MSG[IDX+4]==FLAGorESC[4] && \
+    MSG[IDX+5]==FLAGorESC[5] && MSG[IDX+6]==FLAGorESC[6] && MSG[IDX+7]==FLAGorESC[7]))
+
+/* Atribui-se a MSG[IDX_MSG] até MSG[IDX_MSG+7] os valores de BITS[IDX_BITS] até BITS[IDX_BITS+7].
+ * Assume-se que BITS tem 8 elementos.
+ */
+#define add8Bits(MSG, IDX_MSG, BITS, IDX_BITS) MSG[IDX_MSG]=BITS[IDX_BITS];MSG[IDX_MSG+1]=BITS[IDX_BITS+1];\
+    MSG[IDX_MSG+2]=BITS[IDX_BITS+2];MSG[IDX_MSG+3]=BITS[IDX_BITS+3];MSG[IDX_MSG+4]=BITS[IDX_BITS+4];\
+    MSG[IDX_MSG+5]=BITS[IDX_BITS+5];MSG[IDX_MSG+6]=BITS[IDX_BITS+6];MSG[IDX_MSG+7]=BITS[IDX_BITS+7]
+
+const int FLAG_BYTES[] = {0,1,0,0,0,0,0,0}; //< (char) 64 == '@'; essa é a flag
+const int ESCAPE_BYTES[] = {0,0,1,1,1,1,1,1}; // (char) 63 == '?'; esse é o escape
+
 using namespace std;
+
 
 ///////////////////////////////////////////////////////
 //      Metodo CamadaEnlaceDadosTransmissora        //
@@ -29,11 +45,11 @@ void CamadaEnlaceDadosTransmissoraEnquadramento (int quadro [],int size) {
 
     switch (tipoDeEnquadramento) {
         case 0 : //contagem de caracteres
-CamadaDeEnlaceTransmissoraEnquadramentoContagemDeCaracteres(quadro,size);
-        break;
+            CamadaDeEnlaceTransmissoraEnquadramentoContagemDeCaracteres(quadro,size);
+            break;
         case 1 : //insercao de bytes quadroEnquadrado =
-//CamadaDeEnlaceTransmissoraEnquadramentoInsercaoDeBytes(quadro,size);
-        break;
+            CamadaDeEnlaceTransmissoraEnquadramentoInsercaoDeBytes(quadro,size);
+            break;
         case 2 :
 //insercao de bits quadroEnquadrado =
 //CamadaDeEnlaceTransmissoraEnquadramentoInsercaoDeBits(quadro,size);
@@ -65,10 +81,7 @@ void CamadaDeEnlaceTransmissoraEnquadramentoContagemDeCaracteres (int quadro [],
     while(qtd > 0){
         quadro_invertido[i] = qtd%2;
         qtd /= 2;
-//        cout << qtd << endl;
-//                cout << quadro_invertido[i];
         i++;
-
     }
     if(i == 6){
       quadro_invertido[i] = 0;
@@ -115,15 +128,50 @@ void CamadaDeEnlaceTransmissoraEnquadramentoContagemDeCaracteres (int quadro [],
 
 }
 
-/*
 //////////////////////////////////////////////////////////////////////
 //      Metodo CamadaEnlaceDadosTransmissoraInsercaoDeBytes        //
 ////////////////////////////////////////////////////////////////////
-void CamadaEnlaceDadosTransmissoraEnquadramentoInsercaoDeBytes (int quadro [], int size) {
-    //implementacao do algoritmo
+void CamadaDeEnlaceTransmissoraEnquadramentoInsercaoDeBytes (int quadro [], int size) {
+    int qtEscapesAndFlags = 0, i;
+
+    // Percorremos cada bit procurando pelo padrão da flag
+    // Obs.: isFlagOrEscape não é uma função, é um #define
+    for(i = 0; i < size -7; i++) {
+        if(isFlagOrEscape(quadro, i, FLAG_BYTES) || isFlagOrEscape(quadro, i, ESCAPE_BYTES)) {
+            qtEscapesAndFlags++;
+            i += 7;
+        }
+    }
+
+    // O novo quadro terá tamanho size, mais 8 vezes o número de flags e
+    // de escapes, mais 16, pois serão adicionadas flags no início e no fim
+    int newsize = size + 8*qtEscapesAndFlags + 16;
+    int newquadro[newsize];
+
+    add8Bits(newquadro, 0, FLAG_BYTES, 0);
+    add8Bits(newquadro, newsize -8, FLAG_BYTES, 0);
+
+    for(int newquadroIdx = 8, i = 0; i < size; newquadroIdx++, i++) {
+        // Se encontramos um símbolo de escape ou de flag na mensagem,
+        // precisamos ignorar esses 8 bits adicionando um símbolo de 
+        // escape antes
+        if(size - i >= 8 && (isFlagOrEscape(quadro, i, FLAG_BYTES) || \
+                isFlagOrEscape(quadro, i, ESCAPE_BYTES))) {
+            add8Bits(newquadro, newquadroIdx, ESCAPE_BYTES, 0);
+            newquadroIdx += 8;
+            add8Bits(newquadro, newquadroIdx, quadro, i);
+            newquadroIdx += 7;
+            i += 7;
+        }
+        else
+            newquadro[newquadroIdx] = quadro[i];
+    }
+
+  CamadaEnlaceDadosTransmissoraControleDeErro(newquadro, newsize);
 }
 
 
+/*
 /////////////////////////////////////////////////////////////////////
 //      Metodo CamadaEnlaceDadosTransmissoraInsercaoDeBits        //
 ///////////////////////////////////////////////////////////////////
@@ -153,7 +201,7 @@ void CamadaEnlaceDadosReceptoraEnquadramento (int quadro [], int size) {
             CamadaEnlaceDadosReceptoraEnquadramentoContagemDeCaracteres(quadro,size);
             break;
         case 1 : //insercao de bytes quadroDesenquadrado =
-//CamadaDeEnlaceTransmissoraEnquadramentoInsercaoDeBytes(quadro, size);
+            CamadaDeEnlaceTransmissoraEnquadramentoInsercaoDeBytes(quadro, size);
             break;
         case 2 : //insercao de bits quadroDesenquadrado =
 //CamadaDeEnlaceTransmissoraEnquadramentoInsercaoDeBits(quadro, size); //sem break??
@@ -180,16 +228,60 @@ void CamadaEnlaceDadosReceptoraEnquadramentoContagemDeCaracteres (int quadro [],
 
       CamadaDeAplicacaoReceptora(newquadro, size-7);
 }
-/*
+
 
 ///////////////////////////////////////////////////////////////////
 //      Metodo CamadaEnlaceDadosReceptoraInsercaoDeBytes        //
 /////////////////////////////////////////////////////////////////
 void CamadaEnlaceDadosReceptoraEnquadramentoInsercaoDeBytes (int quadro [], int size) {
-    //implementacao do algoritmo para DESENQUADRAR
+    int i;
+    //Utilizado para contar quandos bytes da msg original foram escapados
+    int qtEscapedBytes = 0;
+
+    // Percorremos cada bit procurando pelo padrão de escape, se houver,
+    // há, na mensagem, um padrão de bits correspondente ao de escape ou
+    // de flag, totalizando 8 bits de mensagem.
+    // Obs.: isFlagOrEscape não é uma função, é um #define
+    for(i = 8; i < size -7; i++) {
+        // Se encontrar um escape, pula o escape e os próximos 8 bits, totalizando
+        // um salto de 16 bits
+        if(isFlagOrEscape(quadro, i, ESCAPE_BYTES)) {
+            qtEscapedBytes++;
+            i += 15; //< Add 15 porque o for adicionara +1 depois
+        }
+    }
+
+    // O novo quadro terá tamanho size, menos 8 vezes o número de escapeds 
+    // encontrados, menos 16, pois serão removidas as flags de início e fim
+    int newsize = size - 8*qtEscapedBytes - 16;
+    int newquadro[newsize];
+
+    //add8Bits(newquadro, 0, FLAG_BYTES, 0); <<<<<<<<<<<< IGNORAR OS 8 PRIMEIROS E ULTIMOS BITS
+    //add8Bits(newquadro, newsize -8, FLAG_BYTES, 0);
+
+    // Começamos a iteração pulando a flag e ignoramos a última. A última flag
+    // será automaticamente ignorada quando todo o newquadro for preenchido.
+    for(int i = 8, newquadroIdx = 0; newquadroIdx < newsize; newquadroIdx++, i++) {
+        // Se encontramos um símbolo de escape, pulamos ele e adicionamos os 8
+        // próximos bits ao newquadro
+        if(newsize - newquadroIdx >= 8 && isFlagOrEscape(quadro, i, ESCAPE_BYTES)) {
+            i += 8; //< Pulamos o escape
+            // Sabemos que há 8 bits a seguir, pois o escape estava inserido
+            // para escapar um símbolo especial (FLAG_BITS ou ESCAPE_BITS) 
+            // que fazia parte da mensagem e que tem tamanho de 1 byte
+            add8Bits(newquadro, newquadroIdx, quadro, i);
+            newquadroIdx += 7;
+            i += 7;
+        }
+        else
+            newquadro[newquadroIdx] = quadro[i];
+    }
+
+    CamadaDeAplicacaoReceptora(newquadro, newsize);
 }
 
 
+/*
 //////////////////////////////////////////////////////////////////
 //      Metodo CamadaEnlaceDadosReceptoraInsercaoDeBits        //
 ////////////////////////////////////////////////////////////////
