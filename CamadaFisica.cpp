@@ -238,8 +238,7 @@ void CamadaFisicaReceptoraDecodificacaoManchester (int* manchester, int manchest
     }
     cout << endl;
 
-//    CamadaDeAplicacaoReceptora(quadro, manchester_size/2);
-		CamadaEnlaceDadosReceptora(quadro, manchester_size/2, tipoDeControleDeErro);
+	CamadaEnlaceDadosReceptora(quadro, manchester_size/2, tipoDeControleDeErro);
 }
 
 

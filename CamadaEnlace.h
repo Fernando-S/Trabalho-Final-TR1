@@ -30,9 +30,9 @@ void CamadaEnlaceDadosReceptora (int quadro [], int size, int tipoDeControleDeEr
 
 void CamadaDeEnlaceTransmissoraEnquadramentoInsercaoDeBytes (int quadro [], int size);
 
-/*
-void CamadaEnlaceDadosTransmissoraEnquadramentoInsercaoDeBits (int quadro[]);
+void CamadaDeEnlaceTransmissoraEnquadramentoInsercaoDeBits (int quadro [], int size);
 
+/*
 void CamadaEnlaceDadosTransmissoraEnquadramentoViolacaoDaCamadaFisica (int quadro[]);
 
 void CamadaEnlaceDadosReceptora (int quadro[]);
@@ -44,9 +44,10 @@ void CamadaEnlaceDadosReceptoraEnquadramentoContagemDeCaracteres (int quadro[], 
 
 void CamadaEnlaceDadosReceptoraEnquadramentoInsercaoDeBytes (int quadro [], int size);
 
-/*
-void CamadaEnlaceDadosReceptoraEnquadramentoInsercaoDeBits (int quadro[]);
 
+void CamadaEnlaceDadosReceptoraEnquadramentoInsercaoDeBits (int quadro[], int size);
+
+/*
 void CamadaEnlaceDadosReceptoraEnquadramentoViolacaoDaCamadaFisica(int quadro[]);
 
 void CamadaEnlaceDadosTransmissoraControleDeFluxo (int quadro[]);

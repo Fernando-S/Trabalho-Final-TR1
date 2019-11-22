@@ -11,15 +11,26 @@
     MSG[IDX+2]==FLAGorESC[2] && MSG[IDX+3]==FLAGorESC[3] && MSG[IDX+4]==FLAGorESC[4] && \
     MSG[IDX+5]==FLAGorESC[5] && MSG[IDX+6]==FLAGorESC[6] && MSG[IDX+7]==FLAGorESC[7]))
 
+/* Atribui-se a MSG[IDX_MSG] até MSG[IDX_MSG+4] os valores de BITS[IDX_BITS] até BITS[IDX_BITS+4].
+ * Assume-se que BITS tem 5 elementos.
+ */
+#define add5Bits(MSG, IDX_MSG, BITS, IDX_BITS) MSG[IDX_MSG]=BITS[IDX_BITS];MSG[IDX_MSG+1]=BITS[IDX_BITS+1];\
+    MSG[IDX_MSG+2]=BITS[IDX_BITS+2];MSG[IDX_MSG+3]=BITS[IDX_BITS+3];MSG[IDX_MSG+4]=BITS[IDX_BITS+4]
+
 /* Atribui-se a MSG[IDX_MSG] até MSG[IDX_MSG+7] os valores de BITS[IDX_BITS] até BITS[IDX_BITS+7].
  * Assume-se que BITS tem 8 elementos.
  */
-#define add8Bits(MSG, IDX_MSG, BITS, IDX_BITS) MSG[IDX_MSG]=BITS[IDX_BITS];MSG[IDX_MSG+1]=BITS[IDX_BITS+1];\
-    MSG[IDX_MSG+2]=BITS[IDX_BITS+2];MSG[IDX_MSG+3]=BITS[IDX_BITS+3];MSG[IDX_MSG+4]=BITS[IDX_BITS+4];\
+#define add8Bits(MSG, IDX_MSG, BITS, IDX_BITS) add5Bits(MSG,IDX_MSG,BITS,IDX_BITS);\
     MSG[IDX_MSG+5]=BITS[IDX_BITS+5];MSG[IDX_MSG+6]=BITS[IDX_BITS+6];MSG[IDX_MSG+7]=BITS[IDX_BITS+7]
+
+// Verifica se MSG[IDX] até MSG[IDX+4] é igual a {1,1,1,1,1}
+#define is5BitSequence(MSG,IDX) (MSG[IDX]==1 && MSG[IDX+1]==1 && MSG[IDX+2]==1 && \
+    MSG[IDX+3]==1 && MSG[IDX+4]==1)
+
 
 const int FLAG_BYTES[] = {0,1,0,0,0,0,0,0}; //< (char) 64 == '@'; essa é a flag
 const int ESCAPE_BYTES[] = {0,0,1,1,1,1,1,1}; // (char) 63 == '?'; esse é o escape
+const int FLAG_BITS[] = {0,1,1,1,1,1,1,0}; //< Flag da inserção de bits
 
 extern int TIPO_ENQUADRAMENTO; //< Declarado em Simulador.h
 
@@ -48,7 +59,7 @@ void CamadaEnlaceDadosTransmissora (int quadro [], int size) {
 void CamadaEnlaceDadosTransmissoraEnquadramento (int quadro [],int size) {
 
     do {
-        cout << "Tipo de enquadramento (0: contagem de caracteres, 1: inserção de bytes): ";
+        cout << "Tipo de enquadramento (0: contagem de caracteres, 1: inserção de bytes, 2: inserção de bits): ";
         cin >> TIPO_ENQUADRAMENTO;
     } while(TIPO_ENQUADRAMENTO < 0 || TIPO_ENQUADRAMENTO > 3);
 
@@ -60,9 +71,8 @@ void CamadaEnlaceDadosTransmissoraEnquadramento (int quadro [],int size) {
             CamadaDeEnlaceTransmissoraEnquadramentoInsercaoDeBytes(quadro,size);
             break;
         case 2 :
-//insercao de bits quadroEnquadrado =
-//CamadaDeEnlaceTransmissoraEnquadramentoInsercaoDeBits(quadro,size);
-        break;
+            CamadaDeEnlaceTransmissoraEnquadramentoInsercaoDeBits(quadro,size);
+            break;
         case 3 :
 //violacao da camada fisica quadroEnquadrado =
 //CamadaDeEnlaceTransmissoraEnquadramentoViolacaoCamadaFisica(quadro,size);
@@ -192,19 +202,61 @@ void CamadaDeEnlaceTransmissoraEnquadramentoInsercaoDeBytes (int quadro [], int 
 }
 
 
-/*
 /////////////////////////////////////////////////////////////////////
 //      Metodo CamadaEnlaceDadosTransmissoraInsercaoDeBits        //
 ///////////////////////////////////////////////////////////////////
-void CamadaEnlaceDadosTransmissoraEnquadramentoInsercaoDeBits (int quadro [], int size) {
-    //implementacao do algoritmo
+void CamadaDeEnlaceTransmissoraEnquadramentoInsercaoDeBits (int quadro [], int size) {
+    int qt5BitsSeq = 0; //< Contagem de 5 bits setados (iguais a 1) em sequência
+    int bits5[] = {1,1,1,1,1};
+    int i;
+
+    // Percorremos cada bit procurando pelo padrão da flag
+    // Obs.: is5BitSequence não é uma função, é um #define
+    for(i = 0; i < size -4; i++) {
+        if(is5BitSequence(quadro, i)) {
+            qt5BitsSeq++;
+            i += 4;
+        }
+    }
+
+    // O novo quadro terá tamanho size, mais o número vezes que ocorreram a 
+    // sequência [1,1,1,1,1], mais 16, pois serão adicionadas flags no início e no fim
+    int newsize = size + qt5BitsSeq + 16;
+    int newquadro[newsize];
+
+    add8Bits(newquadro, 0, FLAG_BITS, 0);
+    add8Bits(newquadro, newsize -8, FLAG_BITS, 0);
+
+    for(int newquadroIdx = 8, i = 0; i < size; newquadroIdx++, i++) {
+        // Se encontramos um símbolo de escape ou de flag na mensagem,
+        // precisamos ignorar esses 8 bits adicionando um símbolo de 
+        // escape antes
+        if(size - i >= 5 && is5BitSequence(quadro, i)) {
+            add5Bits(newquadro, newquadroIdx, bits5, 0);
+            newquadroIdx += 5;
+            newquadro[newquadroIdx] = 0; //< Add 0 depois de encontrar 5 bits setados consecutivos
+            i += 4;
+        }
+        else
+            newquadro[newquadroIdx] = quadro[i];
+    }
+
+    cout << "\nEnquadramento por inserção de bits: " << endl;
+    cout << "FLAG:   ";
+    for(i = 0; i < 8; i++)
+        cout << FLAG_BITS[i];
+    cout << "\nQuadro: ";
+    for(i=0; i<newsize; i++)
+      cout << newquadro[i];
+    cout << "\n" << endl;
+
+    CamadaEnlaceDadosTransmissoraControleDeErro(newquadro, newsize);
 }
 
 
 ////////////////////////////////////////////////////
 //      Metodo CamadaEnlaceDadosReceptora        //
 //////////////////////////////////////////////////
-*/
 void CamadaEnlaceDadosReceptora (int quadro [], int size, int tipoDeControleDeErro) {
     CamadaEnlaceDadosReceptoraControleDeErro(quadro,size, tipoDeControleDeErro);
 
@@ -220,11 +272,11 @@ void CamadaEnlaceDadosReceptoraEnquadramento (int quadro [], int size) {
         case 0 : //contagem de caracteres
             CamadaEnlaceDadosReceptoraEnquadramentoContagemDeCaracteres(quadro,size);
             break;
-        case 1 : //insercao de bytes quadroDesenquadrado =
+        case 1 : //insercao de bytes
             CamadaEnlaceDadosReceptoraEnquadramentoInsercaoDeBytes(quadro, size);
             break;
-        case 2 : //insercao de bits quadroDesenquadrado =
-//CamadaDeEnlaceReceptoraEnquadramentoInsercaoDeBits(quadro, size); //sem break??
+        case 2 : //insercao de bits
+            CamadaEnlaceDadosReceptoraEnquadramentoInsercaoDeBits(quadro, size);
             break;
     }
 }
@@ -313,15 +365,55 @@ void CamadaEnlaceDadosReceptoraEnquadramentoInsercaoDeBytes (int quadro [], int 
 }
 
 
-/*
 //////////////////////////////////////////////////////////////////
 //      Metodo CamadaEnlaceDadosReceptoraInsercaoDeBits        //
 ////////////////////////////////////////////////////////////////
 void CamadaEnlaceDadosReceptoraEnquadramentoInsercaoDeBits (int quadro[], int size) {
-    //implementacao do algoritmo para DESENQUADRAR
+    int qt5BitsSeq = 0; //< Contagem de 5 bits setados (iguais a 1) em sequência
+    int bits5[] = {1,1,1,1,1};
+    int i;
+
+    // Percorremos cada bit procurando pelo padrão [1,1,1,1,1]
+    // ignorando as flags de início e fim
+    // Obs.: is5BitSequence não é uma função, é um #define
+    for(i = 8; i < size -7; i++) {
+        if(is5BitSequence(quadro, i)) {
+            qt5BitsSeq++;
+            i += 4;
+        }
+    }
+
+    // O novo quadro terá tamanho size, menos o número vezes que ocorreram a 
+    // sequência [1,1,1,1,1], menos 16, pois serão removidas as 2 flags
+    int newsize = size - qt5BitsSeq - 16;
+    int newquadro[newsize];
+
+    for(int newquadroIdx = 0, i = 8; newquadroIdx < newsize; newquadroIdx++, i++) {
+        // Se encontramos a sequência de 5 bits setados, removemos o 0 que 
+        // vem a seguir
+        if(newsize - newquadroIdx >= 5 && is5BitSequence(quadro, i)) {
+            add5Bits(newquadro, newquadroIdx, bits5, 0);
+            newquadroIdx += 4;
+            i += 5;
+        }
+        else
+            newquadro[newquadroIdx] = quadro[i];
+    }
+
+    cout << "\nDesenquadramento por inserção de bits: " << endl;
+    cout << "FLAG:   ";
+    for(i = 0; i < 8; i++)
+        cout << FLAG_BITS[i];
+    cout << "\nQuadro: ";
+    for(i=0; i<newsize; i++)
+      cout << newquadro[i];
+    cout << "\n" << endl;
+
+    CamadaDeAplicacaoReceptora(newquadro, newsize);
 }
 
 
+/*
 //////////////////////////////////////////////////////////////////////
 //      Metodo CamadaEnlaceDadosTransmissoraControleDeFluxo        //
 ////////////////////////////////////////////////////////////////////
