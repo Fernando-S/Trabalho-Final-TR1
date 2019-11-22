@@ -26,7 +26,7 @@ void CamadaEnlaceDadosReceptoraControleDeErroBitDeParidadePar(int quadro[], int 
 
 int CamadaEnlaceDadosReceptoraControleDeErroBitDeParidadeImpar(int quadro[],int size);
 
-void CamadaEnlaceDadosTransmissoraControleDeErroCodigoDeHamming (int quadro[], int size);
+//void CamadaEnlaceDadosTransmissoraControleDeErroCodigoDeHamming (int quadro[], int size);
 
 void CamadaEnlaceDadosReceptora (int quadro [], int size, int tipoDeControleDeErro);
 
@@ -34,25 +34,15 @@ void CamadaDeEnlaceTransmissoraEnquadramentoInsercaoDeBytes (int quadro [], int 
 
 void CamadaDeEnlaceTransmissoraEnquadramentoInsercaoDeBits (int quadro [], int size);
 
-/*
-
-void CamadaEnlaceDadosTransmissoraEnquadramentoViolacaoDaCamadaFisica (int quadro[]);
-
-*/
+//void CamadaEnlaceDadosTransmissoraEnquadramentoViolacaoDaCamadaFisica (int quadro[]);
 
 void CamadaEnlaceDadosReceptoraEnquadramentoInsercaoDeBytes (int quadro [], int size);
 
-
 void CamadaEnlaceDadosReceptoraEnquadramentoInsercaoDeBits (int quadro[], int size);
 
-/*
-
-void CamadaEnlaceDadosReceptoraEnquadramentoViolacaoDaCamadaFisica(int quadro[]);
-
-*/
+//void CamadaEnlaceDadosReceptoraEnquadramentoViolacaoDaCamadaFisica(int quadro[]);
 
 void CamadaEnlaceDadosTransmissoraControleDeErro (int quadro[], int size);
-/*
 
 /* Calcula o bit de paridade do quadro para que sua paridade seja par.
  * Args:
@@ -63,7 +53,7 @@ void CamadaEnlaceDadosTransmissoraControleDeErro (int quadro[], int size);
  *          paridade seja par.
 */
 void CamadaEnlaceDadosTransmissoraControleDeErroBitParidadePar (int quadro[], int size_quadro);
-/*
+
 /* Calcula o bit de paridade do quadro para que sua paridade seja ímpar.
  * Args:
  *    quadro, vetor de bits.
@@ -74,13 +64,12 @@ void CamadaEnlaceDadosTransmissoraControleDeErroBitParidadePar (int quadro[], in
 */
 void CamadaEnlaceDadosTransmissoraControleDeErroBitParidadeImpar (int quadro[], int size_quadro);
 
-/*
-void CamadaEnlaceDadosTransmissoraControleDeErroCRC (int quadro[]);
 
-/*
-void CamadaEnlaceDadosReceptoraControleDeErroCRC (int quadro[]);
+void CamadaEnlaceDadosTransmissoraControleDeErroCRC (int quadro[], int size);
 
-void CamadaEnlaceDadosReceptoraControleDeErroCodigoDeHamming (int quadro[]);
- */
+
+void CamadaEnlaceDadosReceptoraControleDeErroCRC (int quadro_extentido[], int size);
+
+ //void CamadaEnlaceDadosReceptoraControleDeErroCodigoDeHamming (int quadro[], int size);
 
 #endif  // CAMADA_ENLACE_H

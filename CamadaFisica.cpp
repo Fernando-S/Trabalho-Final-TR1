@@ -9,7 +9,7 @@ using namespace std;
 void CamadaFisicaTransmissora (int quadro[], int size, int tipoDeControleDeErro) {
 	int tipoDeCodificacao; //alterar de acordo o teste
 
-    cout << "Por favor, informe qual codificacao deseja (1 - Binaria, 2 - Manchester, 3 Manchester Diferencial: ";
+    cout << "\nPor favor, informe qual codificacao deseja (1 - Binaria, 2 - Manchester, 3 Manchester Diferencial: ";
     cin >> tipoDeCodificacao;
 
     while(tipoDeCodificacao != 1 && tipoDeCodificacao != 2 && tipoDeCodificacao != 3){

@@ -41,21 +41,13 @@ using namespace std;
 //      Metodo CamadaEnlaceDadosTransmissora        //
 /////////////////////////////////////////////////////
 void CamadaEnlaceDadosTransmissora (int quadro [], int size) {
-
-    
-
    CamadaEnlaceDadosTransmissoraEnquadramento(quadro, size);
-//    CamadaEnlaceDadosTransmissoraControleDeErro(quadro,size);
-//    CamadaEnlaceDadosTransmissoraControleDeFluxo(quadro,size);
-    //chama proxima camada
-//    CamadaFisicaTransmissora(quadro,size);
 }
-/*
+
 
 ///////////////////////////////////////////////////////////////
 //      Metodo CamadaEnlaceTransmissoraEnquadramento        //
 /////////////////////////////////////////////////////////////
-*/
 void CamadaEnlaceDadosTransmissoraEnquadramento (int quadro [],int size) {
 
     do {
@@ -73,10 +65,6 @@ void CamadaEnlaceDadosTransmissoraEnquadramento (int quadro [],int size) {
         case 2 :
             CamadaDeEnlaceTransmissoraEnquadramentoInsercaoDeBits(quadro,size);
             break;
-        case 3 :
-//violacao da camada fisica quadroEnquadrado =
-//CamadaDeEnlaceTransmissoraEnquadramentoViolacaoCamadaFisica(quadro,size);
-        break;
     }
 }
 
@@ -126,11 +114,9 @@ void CamadaDeEnlaceTransmissoraEnquadramentoContagemDeCaracteres (int quadro [],
       for(i = 1; i<8; i++)
         quadro_invertido[i] = 0;
     }
-
-
-
-
     cout << endl;
+
+
     int j = 0;
     i = 6;
     while(j<7){
@@ -280,12 +266,11 @@ void CamadaEnlaceDadosReceptoraEnquadramento (int quadro [], int size) {
             break;
     }
 }
-/*
+
 
 ////////////////////////////////////////////////////////////////////////
 //      Metodo CamadaEnlaceDadosReceptoraContagemDeCaracteres        //
 //////////////////////////////////////////////////////////////////////
-*/
 void CamadaEnlaceDadosReceptoraEnquadramentoContagemDeCaracteres (int quadro [], int size)
 {
     //implementacao do algoritmo para DESENQUADRAR
@@ -298,7 +283,7 @@ void CamadaEnlaceDadosReceptoraEnquadramentoContagemDeCaracteres (int quadro [],
     }
     cout<< "\n";
 
-      CamadaDeAplicacaoReceptora(newquadro, size-7);
+    CamadaDeAplicacaoReceptora(newquadro, size-7);
 }
 
 
@@ -413,22 +398,12 @@ void CamadaEnlaceDadosReceptoraEnquadramentoInsercaoDeBits (int quadro[], int si
 }
 
 
-/*
-//////////////////////////////////////////////////////////////////////
-//      Metodo CamadaEnlaceDadosTransmissoraControleDeFluxo        //
-////////////////////////////////////////////////////////////////////
-void CamadaEnlaceDadosTransmissoraControleDeFluxo (int quadro [], int size) {
-    //algum codigo aqui
-}
-
-
 /////////////////////////////////////////////////////////////////////
 //      Metodo CamadaEnlaceDadosTransmissoraControleDeErro        //
 ///////////////////////////////////////////////////////////////////
-*/
 void CamadaEnlaceDadosTransmissoraControleDeErro (int quadro [], int size) {
     int tipoDeControleDeErro; //alterar de acordo com o teste
-    cout << "Tipo de controle de erro (0: bit de paridade par, 1: bit de paridade impar): ";
+    cout << "Tipo de controle de erro (0: bit de paridade par, 1: bit de paridade impar, 2: CRC, 3: Hamming: )";
     cin >> tipoDeControleDeErro;
     switch (tipoDeControleDeErro) {
         case 0 : //bit de paridade par
@@ -438,9 +413,10 @@ void CamadaEnlaceDadosTransmissoraControleDeErro (int quadro [], int size) {
             CamadaEnlaceDadosTransmissoraControleDeErroBitParidadeImpar(quadro, size);
             break;
         case 2 : //CRC
-            //codigo
+            CamadaEnlaceDadosTransmissoraControleDeErroCRC(quadro, size);
+            break;
         case 3 : //codigo de Hamming
-            CamadaEnlaceDadosTransmissoraControleDeErroCodigoDeHamming(quadro, size);
+//            CamadaEnlaceDadosTransmissoraControleDeErroCodigoDeHamming(quadro, size);
             break;
     }
 }
@@ -486,17 +462,104 @@ void CamadaEnlaceDadosTransmissoraControleDeErroBitParidadeImpar(int quadro[], i
     //chamar proxima funcao
     CamadaFisicaTransmissora(newquadro, size+1, 0);
 }
-/*
+
 
 ////////////////////////////////////////////////////////////////////////
 //      Metodo CamadaEnlaceDadosTransmissoraControledeErroCRC        //
 //////////////////////////////////////////////////////////////////////
 void CamadaEnlaceDadosTransmissoraControleDeErroCRC (int quadro [], int size) {
-    //implementacao do algoritmo
     //usar polinomio CRC-32(IEEE 802)
+    int gerador[size], quadro_extendido[2*size+1], resto[size], i;
+
+    ////// Polinomio Gerador //////
+    // Obrigatorios de CRC
+    gerador[0] = 1;
+    gerador[size-1] = 1;
+
+    // Escolha minha
+    gerador[1] = 1;
+    for(i = 2; i < size-1; i++){
+        gerador[i] = 0;
+    }
+
+    ////// Criacao do quadro extendido //////
+    for(i = 0; i < size; i++){
+        quadro_extendido[i] = quadro[i];
+    }
+    for(i = size; i < 2*size+1; i++){
+        quadro_extendido[i] = 0;
+    }
+
+    // Print do quadro recebido e do quadro extendido extendido
+    cout << "O quadro que sera transmitido eh: ";
+    for(i = 0; i < size; i++){
+        cout << quadro[i];
+    }
+    cout << endl;
+    cout << "O quadro extendido eh: ";
+    for(i = 0; i < 2*size+1; i++){
+        cout << quadro_extendido[i];
+    }
+    cout << endl;
+
+    // Print do polinomio gerador
+    cout << "O polinomio gerador escolhido foi: ";
+    for(i = 0; i < size; i++){
+        cout << gerador[i];
+    }
+    cout << endl;
+
+    // Colocar size bits do quadro extendido
+    for(i = 0; i < size; i++){
+        resto[i] = quadro_extendido[i];
+    }
+
+    ///// Logica do CRC //////
+    for(int j = 0; j < size+2; j++){
+        // Divisao de bits
+        if(resto[0] == 1){
+            for(i = 0; i < size; i++){
+                // FAZER O XOR
+                resto[i] ^= gerador[i];
+            }
+        }
+
+        // Shift do resto para realizar nova divisao
+        if(j < 2*size-3) {
+            for (i = 0; i < size - 1; i++) {
+                resto[i] = resto[i + 1];
+            }
+
+            // Ultimo bit da divisao
+            if(j==size+1)
+                resto[size - 1] = 0;
+            else
+                resto[size - 1] = quadro_extendido[size + j];
+        }
+
+//        // Print para DEBUG
+//        cout << "O resto eh: ";
+//        for(i = 0; i < size; i++){
+//            cout << resto[i];
+//        }
+//        cout << endl;
+    }
+
+    // Coloca o CRC no final da mensagem
+    quadro_extendido[2*size] = resto[size-1];
+
+    // Mensagem transmitida apos o CRC
+    cout << "Mensagem transmitida usando CRC: ";
+    for(i = 0; i < 2*size+1 ; i++){
+        cout << quadro_extendido[i];
+    }
+    cout << endl << endl;
+
+    //chamar proxima funcao
+    CamadaFisicaTransmissora(quadro_extendido, 2*size+1, 0);
 }
 
-
+/*
 ////////////////////////////////////////////////////////////////////////////////////
 //      Metodo CamadaEnlaceDadosTransmissoraControleDeErroCodigoDehamming //
 //////////////////////////////////////////////////////////////////////////////////
@@ -559,14 +622,7 @@ void CamadaEnlaceDadosTransmissoraControleDeErroCodigoDeHamming(int quadro [], i
   }
   */
 
-/*
-///////////////////////////////////////////////////////////////////
-//      Metodo CamadaEnlaceDadosReceptoraControleDeFluxo        //
-/////////////////////////////////////////////////////////////////
-void CamadaEnlaceDadosReceptoraControleDeFluxo(int quadro[], int size) {
-  // algum codigo aqui
-}
-*/
+
 //////////////////////////////////////////////////////////////////
 //      Metodo CamadaEnlaceDadosReceptoraControleDeErro        //
 ////////////////////////////////////////////////////////////////
@@ -580,9 +636,10 @@ void CamadaEnlaceDadosReceptoraControleDeErro(int quadro[], int size, int tipoDe
         CamadaEnlaceDadosReceptoraControleDeErroBitDeParidadeImpar(quadro, size);
         break;
       case 2: // CRC
+        CamadaEnlaceDadosReceptoraControleDeErroCRC(quadro, size);
         break;
       case 3: // codigo de hamming
-        CamadaEnlaceDadosReceptoraControleDeErroCodigoDeHamming(quadro, size);
+//        CamadaEnlaceDadosReceptoraControleDeErroCodigoDeHamming(quadro, size);
         break;
   }
 }
@@ -602,7 +659,7 @@ void CamadaEnlaceDadosReceptoraControleDeErroBitDeParidadePar(int quadro[], int 
       teste ^= quadro[i];
   }
   if(teste == 1){                           //se teste = 0, o quadro foi passado corretamente
-    cout << "\nQuadro correto." << endl;
+    cout << "\nQuadro correto.. (Caso a quantidade de erros seja par, a detecção por bit paridade não é possivel)" << endl;
   }
   if(teste == 0){                           //se teste = 1, houve erro na transmissao do quadro
     cout << "\nHouve erro na trasmissão do quadro.";
@@ -623,7 +680,7 @@ int CamadaEnlaceDadosReceptoraControleDeErroBitDeParidadeImpar(int quadro[],int 
   int bitTeste;
   int newquadro[size-1];
 
-  cout << "\nVerificando paridade par do quadro recebido..." << endl;
+  cout << "\nVerificando paridade impar do quadro recebido..." << endl;
 
   int i=0, teste=0;
   for(int i = 0; i < 6; i++) {
@@ -631,7 +688,7 @@ int CamadaEnlaceDadosReceptoraControleDeErroBitDeParidadeImpar(int quadro[],int 
     cout << teste;
   }
   if(teste == 1){                           //se teste = 0, o quadro foi passado corretamente
-    cout << "\nQuadro correto." << endl;
+    cout << "\nQuadro correto.. (Caso a quantidade de erros seja par, a detecção por bit paridade não é possivel)" << endl;
   }
   if(teste == 0){                           //se teste = 1, houve erro na transmissao do quadro
     cout << "\nHouve erro na trasmissão do quadro.";
@@ -644,15 +701,99 @@ int CamadaEnlaceDadosReceptoraControleDeErroBitDeParidadeImpar(int quadro[],int 
   CamadaEnlaceDadosReceptoraEnquadramento(newquadro, size-1);
 
 }
-/*
+
+
 /////////////////////////////////////////////////////////////////////
 //      Metodo CamadaEnlaceDadosReceptoraControleDeErroCRC        //
 ///////////////////////////////////////////////////////////////////
-void CamadaEnlaceDadosReceptoraControleDeErroCRC(int quadro[]) {
-  // implementacao do algoritmo para VERIFICAR SE HOUVE ERRO
+void CamadaEnlaceDadosReceptoraControleDeErroCRC(int quadro_extendido[], int size) {
   // usar polinomio CRC-32(IEEE 802)
+    int gerador[size], resto[size], quadro[size], i;
+
+    ////// Polinomio Gerador //////
+    // Obrigatorios de CRC
+    gerador[0] = 1;
+    gerador[size-1] = 1;
+
+    // Escolha minha
+    gerador[1] = 1;
+    for(i = 2; i < size-1; i++){
+        gerador[i] = 0;
+    }
+
+    // Print do quadro recebido extendido
+    cout << "O quadro recebido foi: ";
+    for(i = 0; i < 2*size+1; i++){
+        cout << quadro_extendido[i];
+    }
+    cout << endl;
+
+    ////// Criacao do quadro transmitido //////
+    for(i = 0; i < size; i++){
+        quadro[i] = quadro_extendido[i];
+    }
+
+
+    // Print do polinomio gerador
+    cout << "O polinomio gerador escolhido foi: ";
+    for(i = 0; i < size; i++){
+        cout << gerador[i];
+    }
+    cout << endl;
+
+    // Colocar size bits do quadro extendido
+    for(i = 0; i < size; i++){
+        resto[i] = quadro_extendido[i];
+    }
+
+    ////// Decodificação do CRC //////
+    for(int j = 0; j < size+2; j++){
+        // Divisao de bits
+        if(resto[0] == 1){
+            for(i = 0; i < size; i++){
+                // FAZER O XOR
+                resto[i] ^= gerador[i];
+            }
+        }
+
+        // Shift do resto para realizar nova divisao
+        if(j < 2*size-3) {
+            for (i = 0; i < size - 1; i++) {
+                resto[i] = resto[i + 1];
+            }
+
+            // Ultimo bit da divisao
+            if(j==size+1)
+                resto[size - 1] = 0;
+            else
+                resto[size - 1] = quadro_extendido[size + j];
+        }
+
+//        // Print para DEBUG
+//        cout << "O resto eh: ";
+//        for(i = 0; i < size; i++){
+//            cout << resto[i];
+//        }
+//        cout << endl;
+    }
+
+    ////// Checa se houve erro e printa na tela //////
+    if(resto[size-1] == 0)
+        cout << "A mensagem chegou sem nenhum erro!" << endl;
+    else
+        cout << "Houve um erro durante a transnissao da mensagem!" << endl;
+
+    // Mensagem decodificada apos o CRC
+    cout << "Mensagem decodificada: ";
+    for(i = 0; i < size ; i++){
+        cout << quadro[i];
+    }
+    cout << endl << endl;
+
+    CamadaEnlaceDadosReceptoraEnquadramento(quadro, size);
 }
 
+/*
 /////////////////////////////////////////////////////////////////////////////////
 //      Metodo CamadaEnlaceDadosReceptoraControleDeErroCodigoDeHamming        //
 ///////////////////////////////////////////////////////////////////////////////
