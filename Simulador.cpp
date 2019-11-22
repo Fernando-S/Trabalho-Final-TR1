@@ -8,6 +8,8 @@
 #include <time.h>
 #include <stdlib.h>
 
+int TIPO_ENQUADRAMENTO = 0;
+
 using namespace std;
 
 /*************************************************************
@@ -69,9 +71,7 @@ void CamadaDeAplicacaoTransmissora (string mensagem) {
             j--;
         }
     }
-    for(i=0; i<size; i++){
-      cout << quadro[i];
-    }
+
   CamadaEnlaceDadosTransmissora(quadro,size);
 //    CamadaFisicaTransmissora(quadro, size);
 }
@@ -83,8 +83,9 @@ void CamadaDeAplicacaoTransmissora (string mensagem) {
 void AplicacaoTransmissora (void) {
     string mensagem;
 
-    cout << "Digite uma mensagem:" << endl;
+    cout << "Digite uma mensagem: ";
     getline(cin, mensagem);
+    cout << endl;
 
     //chama a proxima camada
     CamadaDeAplicacaoTransmissora(mensagem); //em um exemplo mais realistico, aqui seria dado um SEND do SOCKET

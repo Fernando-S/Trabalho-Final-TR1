@@ -21,6 +21,8 @@
 const int FLAG_BYTES[] = {0,1,0,0,0,0,0,0}; //< (char) 64 == '@'; essa é a flag
 const int ESCAPE_BYTES[] = {0,0,1,1,1,1,1,1}; // (char) 63 == '?'; esse é o escape
 
+extern int TIPO_ENQUADRAMENTO; //< Declarado em Simulador.h
+
 using namespace std;
 
 
@@ -28,7 +30,10 @@ using namespace std;
 //      Metodo CamadaEnlaceDadosTransmissora        //
 /////////////////////////////////////////////////////
 void CamadaEnlaceDadosTransmissora (int quadro [], int size) {
-   CamadaEnlaceDadosTransmissoraEnquadramento(quadro,size);
+
+    
+
+   CamadaEnlaceDadosTransmissoraEnquadramento(quadro, size);
 //    CamadaEnlaceDadosTransmissoraControleDeErro(quadro,size);
 //    CamadaEnlaceDadosTransmissoraControleDeFluxo(quadro,size);
     //chama proxima camada
@@ -41,9 +46,13 @@ void CamadaEnlaceDadosTransmissora (int quadro [], int size) {
 /////////////////////////////////////////////////////////////
 */
 void CamadaEnlaceDadosTransmissoraEnquadramento (int quadro [],int size) {
-    int tipoDeEnquadramento= 0; //alterar de acordo com o teste
 
-    switch (tipoDeEnquadramento) {
+    do {
+        cout << "Tipo de enquadramento (0: contagem de caracteres, 1: inserção de bytes): ";
+        cin >> TIPO_ENQUADRAMENTO;
+    } while(TIPO_ENQUADRAMENTO < 0 || TIPO_ENQUADRAMENTO > 3);
+
+    switch (TIPO_ENQUADRAMENTO) {
         case 0 : //contagem de caracteres
             CamadaDeEnlaceTransmissoraEnquadramentoContagemDeCaracteres(quadro,size);
             break;
@@ -167,7 +176,19 @@ void CamadaDeEnlaceTransmissoraEnquadramentoInsercaoDeBytes (int quadro [], int 
             newquadro[newquadroIdx] = quadro[i];
     }
 
-  CamadaEnlaceDadosTransmissoraControleDeErro(newquadro, newsize);
+    cout << "\nEnquadramento por inserção de bytes: " << endl;
+    cout << "FLAG:   ";
+    for(i = 0; i < 8; i++)
+        cout << FLAG_BYTES[i];
+    cout << "\nESCAPE: ";
+    for(i = 0; i < 8; i++)
+        cout << ESCAPE_BYTES[i];
+    cout << "\nQuadro: ";
+    for(i=0; i<newsize; i++)
+      cout << newquadro[i];
+    cout << "\n" << endl;
+
+    CamadaEnlaceDadosTransmissoraControleDeErro(newquadro, newsize);
 }
 
 
@@ -194,17 +215,16 @@ void CamadaEnlaceDadosReceptora (int quadro [], int size, int tipoDeControleDeEr
 //      Metodo CamadaEnlaceDadosReceptoraEnquadramento        //
 ///////////////////////////////////////////////////////////////
 void CamadaEnlaceDadosReceptoraEnquadramento (int quadro [], int size) {
-    int tipoDeEnquadramento= 0; //alterar de acordo com o teste
 
-    switch (tipoDeEnquadramento) {
+    switch (TIPO_ENQUADRAMENTO) {
         case 0 : //contagem de caracteres
             CamadaEnlaceDadosReceptoraEnquadramentoContagemDeCaracteres(quadro,size);
             break;
         case 1 : //insercao de bytes quadroDesenquadrado =
-            CamadaDeEnlaceTransmissoraEnquadramentoInsercaoDeBytes(quadro, size);
+            CamadaEnlaceDadosReceptoraEnquadramentoInsercaoDeBytes(quadro, size);
             break;
         case 2 : //insercao de bits quadroDesenquadrado =
-//CamadaDeEnlaceTransmissoraEnquadramentoInsercaoDeBits(quadro, size); //sem break??
+//CamadaDeEnlaceReceptoraEnquadramentoInsercaoDeBits(quadro, size); //sem break??
             break;
     }
 }
@@ -304,7 +324,7 @@ void CamadaEnlaceDadosTransmissoraControleDeFluxo (int quadro [], int size) {
 */
 void CamadaEnlaceDadosTransmissoraControleDeErro (int quadro [], int size) {
     int tipoDeControleDeErro; //alterar de acordo com o teste
-    cout << "Tipo de controle de erro (0: bit de paridade par, 1: bit de paridade impar)";
+    cout << "Tipo de controle de erro (0: bit de paridade par, 1: bit de paridade impar): ";
     cin >> tipoDeControleDeErro;
     switch (tipoDeControleDeErro) {
         case 0 : //bit de paridade par

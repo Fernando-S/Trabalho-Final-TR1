@@ -163,11 +163,12 @@ void MeioDeComunicacao (int fluxoBrutoDeBits[], int size, int tipoDeDecodificaca
 	      cout << fluxoBrutoDeBitsPontoA[i];
 				cout << "(com erro simulado)";
 	    }
-	    else{
+/*	    else{
 	      cout << "\nBit" << i << ": ";
 	      cout << fluxoBrutoDeBitsPontoA[i];
 				cout << "(sem erro simulado)";
 	      }
+*/
 	    }
 		cout << endl;
     cout << "\nO fluxo de bits que chega no ponto B eh: ";
