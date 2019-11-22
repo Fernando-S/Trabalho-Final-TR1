@@ -26,6 +26,8 @@ void CamadaEnlaceDadosReceptoraControleDeErroBitDeParidadePar(int quadro[], int 
 
 int CamadaEnlaceDadosReceptoraControleDeErroBitDeParidadeImpar(int quadro[],int size);
 
+void CamadaEnlaceDadosTransmissoraControleDeErroCodigoDeHamming (int quadro[], int size);
+
 void CamadaEnlaceDadosReceptora (int quadro [], int size, int tipoDeControleDeErro);
 
 void CamadaDeEnlaceTransmissoraEnquadramentoInsercaoDeBytes (int quadro [], int size);
@@ -74,8 +76,6 @@ void CamadaEnlaceDadosTransmissoraControleDeErroBitParidadeImpar (int quadro[], 
 
 /*
 void CamadaEnlaceDadosTransmissoraControleDeErroCRC (int quadro[]);
-
-void CamadaEnlaceDadosTransmissoraControleDeErroCodigoDeHamming (int quadro[]);
 
 /*
 void CamadaEnlaceDadosReceptoraControleDeErroCRC (int quadro[]);

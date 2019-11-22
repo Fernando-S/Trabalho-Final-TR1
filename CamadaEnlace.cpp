@@ -440,7 +440,7 @@ void CamadaEnlaceDadosTransmissoraControleDeErro (int quadro [], int size) {
         case 2 : //CRC
             //codigo
         case 3 : //codigo de Hamming
-            //codigo
+            CamadaEnlaceDadosTransmissoraControleDeErroCodigoDeHamming(quadro, size);
             break;
     }
 }
@@ -464,7 +464,6 @@ void CamadaEnlaceDadosTransmissoraControleDeErroBitParidadePar(int quadro[], int
 
     //chamar próxima funcao
     CamadaFisicaTransmissora(newquadro, size+1, 0);
-//    MeioDeComunicacao(newquadro, size+1, 0);//retirar depois, apenas para teste!!!!!
 }
 
 
@@ -484,9 +483,8 @@ void CamadaEnlaceDadosTransmissoraControleDeErroBitParidadeImpar(int quadro[], i
     }
     newquadro[size] = bitParidade ^= 1;
 
-  //chamar proxima funcao
-CamadaFisicaTransmissora(newquadro, size+1, 0);
-
+    //chamar proxima funcao
+    CamadaFisicaTransmissora(newquadro, size+1, 0);
 }
 /*
 
@@ -575,17 +573,17 @@ void CamadaEnlaceDadosReceptoraControleDeFluxo(int quadro[], int size) {
 void CamadaEnlaceDadosReceptoraControleDeErro(int quadro[], int size, int tipoDeControleDeErro) {
 
   switch (tipoDeControleDeErro) {
-  case 0: // bit de paridade par
-    CamadaEnlaceDadosReceptoraControleDeErroBitDeParidadePar(quadro, size);
-    break;
-  case 1: // bit de paridade impar
-    CamadaEnlaceDadosReceptoraControleDeErroBitDeParidadeImpar(quadro, size);
-    break;
-  case 2: // CRC
-          // codigo
-  case 3: // codigo de hamming
-    // codigo
-    break;
+      case 0: // bit de paridade par
+        CamadaEnlaceDadosReceptoraControleDeErroBitDeParidadePar(quadro, size);
+        break;
+      case 1: // bit de paridade impar
+        CamadaEnlaceDadosReceptoraControleDeErroBitDeParidadeImpar(quadro, size);
+        break;
+      case 2: // CRC
+        break;
+      case 3: // codigo de hamming
+        CamadaEnlaceDadosReceptoraControleDeErroCodigoDeHamming(quadro, size);
+        break;
   }
 }
 
@@ -658,7 +656,7 @@ void CamadaEnlaceDadosReceptoraControleDeErroCRC(int quadro[]) {
 /////////////////////////////////////////////////////////////////////////////////
 //      Metodo CamadaEnlaceDadosReceptoraControleDeErroCodigoDeHamming        //
 ///////////////////////////////////////////////////////////////////////////////
-void CamadaEnlaceDadosReceptoraControleDeErroCodigoDeHamming(int quadro[x]) {
+void CamadaEnlaceDadosReceptoraControleDeErroCodigoDeHamming(int quadro[x], int size) {
   std::vector<int> avec;
   for (auto i = 0; i < x; i++) {
     avec.push_back(quadro[i]);
