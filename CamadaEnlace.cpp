@@ -297,6 +297,18 @@ void CamadaEnlaceDadosReceptoraEnquadramentoInsercaoDeBytes (int quadro [], int 
             newquadro[newquadroIdx] = quadro[i];
     }
 
+    cout << "\nDesenquadramento por inserção de bytes: " << endl;
+    cout << "FLAG:   ";
+    for(i = 0; i < 8; i++)
+        cout << FLAG_BYTES[i];
+    cout << "\nESCAPE: ";
+    for(i = 0; i < 8; i++)
+        cout << ESCAPE_BYTES[i];
+    cout << "\nQuadro: ";
+    for(i=0; i<newsize; i++)
+      cout << newquadro[i];
+    cout << "\n" << endl;
+
     CamadaDeAplicacaoReceptora(newquadro, newsize);
 }
 
