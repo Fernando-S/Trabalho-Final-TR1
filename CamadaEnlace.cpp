@@ -674,7 +674,7 @@ void CamadaEnlaceDadosTransmissoraControleDeErroCodigoDeHamming(int quadro[],
   }
   std::cout << std::endl;
 
-    for (auto i = 0; i < size; i++) {
+    for (auto i = 0; i < size+5; i++) {
         quadro[i] = avec[i];
     }
 
@@ -919,19 +919,21 @@ void CamadaEnlaceDadosReceptoraControleDeErroCodigoDeHamming(int quadro[], int s
                 ? 0
                 : 1;
 
-        soma = m3 + m5 + m7 + m9 + m10 + m11 + m12 + m13 + m14 + m15 + m17 + m18 +
-             m19 + m20 + m21 + m22 + m23 + m24 + m25 + m26 + m27 + m28 + m29 +
-             m30 + m31;
+//        soma = m3 + m5 + m7 + m9 + m10 + m11 + m12 + m13 + m14 + m15 + m17 + m18 +
+//             m19 + m20 + m21 + m22 + m23 + m24 + m25 + m26 + m27 + m28 + m29 +
+//             m30 + m31;
+        soma = quadro[i] + quadro[i + 1] + quadro[i + 3] + quadro[i + 7] + quadro[i + 15];
 
 
-      if (soma != 26) {
+      if (soma == 5) {
 //        throw std::runtime_error(
-            cout << "a verificação do código de hamming detectou erro na transmissão" << endl;
+            cout << "a verificacao do codigo de hamming detectou erro na transmissao" << endl;
 
       }
-
+      else{
+          cout << "Nao houve erro com o codigo de Hamming" << endl;
+      }
     }
-    cout << "não houve erro com o código de hamming" << endl;
 
     // Chama a proxima camada
     CamadaEnlaceDadosReceptoraEnquadramento(quadro, size);
