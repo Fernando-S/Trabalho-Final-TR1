@@ -403,8 +403,15 @@ void CamadaEnlaceDadosReceptoraEnquadramentoInsercaoDeBits (int quadro[], int si
 ///////////////////////////////////////////////////////////////////
 void CamadaEnlaceDadosTransmissoraControleDeErro (int quadro [], int size) {
     int tipoDeControleDeErro; //alterar de acordo com o teste
-    cout << "Tipo de controle de erro (0: bit de paridade par, 1: bit de paridade impar, 2: CRC, 3: Hamming: )";
+    cout << "Tipo de controle de erro (0: bit de paridade par, 1: bit de paridade impar, 2: CRC, 3: Hamming): ";
     cin >> tipoDeControleDeErro;
+
+    while(tipoDeControleDeErro != 0 && tipoDeControleDeErro != 1 && tipoDeControleDeErro != 2 && tipoDeControleDeErro != 3){
+        cout << "Opcao invalida!" << endl;
+        cout << "Tipo de controle de erro (0: bit de paridade par, 1: bit de paridade impar, 2: CRC, 3: Hamming): ";
+        cin >> tipoDeControleDeErro;
+    }
+
     switch (tipoDeControleDeErro) {
         case 0 : //bit de paridade par
             CamadaEnlaceDadosTransmissoraControleDeErroBitParidadePar(quadro, size);
@@ -416,7 +423,7 @@ void CamadaEnlaceDadosTransmissoraControleDeErro (int quadro [], int size) {
             CamadaEnlaceDadosTransmissoraControleDeErroCRC(quadro, size);
             break;
         case 3 : //codigo de Hamming
-//            CamadaEnlaceDadosTransmissoraControleDeErroCodigoDeHamming(quadro, size);
+            CamadaEnlaceDadosTransmissoraControleDeErroCodigoDeHamming(quadro, size);
             break;
     }
 }
@@ -556,71 +563,124 @@ void CamadaEnlaceDadosTransmissoraControleDeErroCRC (int quadro [], int size) {
     cout << endl << endl;
 
     //chamar proxima funcao
-    CamadaFisicaTransmissora(quadro_extendido, 2*size+1, 0);
+    CamadaFisicaTransmissora(quadro_extendido, 2*size+1, 2);
 }
 
-/*
+
 ////////////////////////////////////////////////////////////////////////////////////
 //      Metodo CamadaEnlaceDadosTransmissoraControleDeErroCodigoDehamming //
 //////////////////////////////////////////////////////////////////////////////////
-void CamadaEnlaceDadosTransmissoraControleDeErroCodigoDeHamming(int quadro [], int size) {
+void CamadaEnlaceDadosTransmissoraControleDeErroCodigoDeHamming(int quadro[],
+                                                                int size) {
   std::vector<int> avec;
+  cout << "O quadro recebeido eh: ";
   for (auto i = 0; i < size; i++) {
     avec.push_back(quadro[i]);
+    cout << avec[i];
   }
-  auto p1 = 0, p2 = 0, p4 = 0, p8 = 0;
-  auto nbytes = avec.size() / 8;
-  auto res = std::vector<int>(12 * nbytes);
+  cout << endl;
+  auto p1 = 0, p2 = 0, p4 = 0, p8 = 0, p16 = 0;
+  auto nbytes = avec.size() / 31;
+  auto res = std::vector<int>(31 * nbytes);
   // para cada bit de verificação soma-se os bits de dados de acordo com a regra
   // e verifica-se a paridade cada bit é inserido no vetor resultado já na ordem
-  for (auto i = 0; i < 8; i += 8) {
-    p1 =
-        (avec[i] + avec[i + 1] + avec[i + 3] + avec[i + 4] + avec[i + 6]) % 2 ==
-                0
-            ? 0
-            : 1;
+  for (auto i = 0; i < size; i += 26) {
+    p1 = (avec[i] + avec[i + 1] + avec[i + 3] + avec[i + 4] + avec[i + 6] +
+          avec[i + 8] + avec[i + 10] + avec[i + 11] + avec[i + 13] +
+          avec[i + 15] + avec[i + 17] + avec[i + 19] + avec[i + 21] +
+          avec[i + 23] + avec[i + 25]) %
+                     2 ==
+                 0
+             ? 0
+             : 1;
     res.push_back(p1);
-    p2 =
-        (avec[i] + avec[i + 2] + avec[i + 3] + avec[i + 5] + avec[i + 6]) % 2 ==
-                0
-            ? 0
-            : 1;
+    p2 = (avec[i] + avec[i + 2] + avec[i + 3] + avec[i + 5] + avec[i + 6] +
+          avec[i + 9] + avec[i + 10] + avec[i + 12] + avec[i + 13] +
+          avec[i + 16] + avec[i + 17] + avec[i + 20] + avec[i + 21] +
+          avec[i + 24] + avec[i + 25]) %
+                     2 ==
+                 0
+             ? 0
+             : 1;
     res.push_back(p2);
     res.push_back(avec[i]);
-    p4 = (avec[i + 1] + avec[i + 2] + avec[i + 3] + avec[i + 7]) % 2 == 0 ? 0
-                                                                          : 1;
+    p4 = (avec[i + 1] + avec[i + 2] + avec[i + 3] + avec[i + 7] + avec[i + 8] +
+          avec[i + 9] + avec[i + 10] + avec[i + 14] + avec[i + 15] +
+          avec[i + 16] + avec[i + 17] + avec[i + 22] + avec[i + 23] +
+          avec[i + 24] + avec[i + 25]) %
+                     2 ==
+                 0
+             ? 0
+             : 1;
     res.push_back(p4);
-    res.insert(res.end(), avec.begin() + (i + 1), avec.begin() + (i + 3));
-    p8 = (avec[i + 4] + avec[i + 5] + avec[i + 6] + avec[i + 7]) % 2 == 0 ? 0
-                                                                          : 1;
-    res.insert(res.end(), avec.begin() + (i + 4), avec.begin() + (i + 7));
-  }
-  std::cout << "o dado tratado pelo codigo de hamming é:";
-  for (auto r : res) {
-    std::cout << r << " " << std::endl;
-  }
+    res.push_back(avec[i + 1]);
+    res.push_back(avec[i + 2]);
+    res.push_back(avec[i + 3]);
 
+    p8 = (avec[i + 4] + avec[i + 5] + avec[i + 6] + avec[i + 7] + avec[i + 8] +
+          avec[i + 9] + avec[i + 10] + avec[i + 18] + avec[i + 19] +
+          avec[i + 20] + avec[i + 21] + avec[i + 22] + avec[i + 23] +
+          avec[i + 24] + avec[i + 25]) %
+                     2 ==
+                 0
+             ? 0
+             : 1;
+      res.push_back(p8);
+      res.push_back(avec[i + 4]);
+      res.push_back(avec[i + 5]);
+      res.push_back(avec[i + 6]);
+      res.push_back(avec[i + 7]);
+      res.push_back(avec[i + 8]);
+      res.push_back(avec[i + 9]);
+      res.push_back(avec[i + 10]);
+
+    p16 = (avec[i + 11] + avec[i + 12] + avec[i + 13] + avec[i + 14] +
+           avec[i + 15] + avec[i + 16] + avec[i + 17] + avec[i + 18] +
+           avec[i + 19] + avec[i + 20] + avec[i + 21] + avec[i + 22] +
+           avec[i + 23] + avec[i + 24] + avec[i + 25]) %
+                      2 ==
+                  0
+              ? 0
+              : 1;
+      res.push_back(p16);
+
+      res.push_back(avec[i + 11]);
+      res.push_back(avec[i + 12]);
+      res.push_back(avec[i + 13]);
+      res.push_back(avec[i + 14]);
+      res.push_back(avec[i + 15]);
+      res.push_back(avec[i + 16]);
+      res.push_back(avec[i + 17]);
+      res.push_back(avec[i + 18]);
+      res.push_back(avec[i + 19]);
+      res.push_back(avec[i + 20]);
+      res.push_back(avec[i + 21]);
+      res.push_back(avec[i + 22]);
+      res.push_back(avec[i + 23]);
+      res.push_back(avec[i + 24]);
+      res.push_back(avec[i + 25]);
+
+  }
+  std::cout << "o dado tratado pelo codigo de Hamming é: ";
+  if(size < 15){
+      for (int k = 0; k < 19; k++) {
+            cout << res[k];
+      }
+  }
+  else{
+      for (auto r : res) {
+          std::cout << r;
+      }
+  }
   std::cout << std::endl;
+
+    for (auto i = 0; i < size; i++) {
+        quadro[i] = avec[i];
+    }
+
+    //chamar proxima funcao
+    CamadaFisicaTransmissora(quadro, size, 3);
 }
-*/
-
-  // OBS: trabalhar com BITS e nao com BYTES!!!
-  /*
-  int erro, porcentagemDeErros;
-  int fluxoBrutoDeBitsPontoA[size], fluxoBrutoDeBitsPontoB[size];
-
-  porcentagemDeErros = 0; // 10%, 20%, 30%, 40%, ..., 100%
-  fluxoBrutoDeBitsPontoA = fluxoBrutoDeBits;
-
-  while (fluxoBrutoDeBitsPontoB.lenght != fluxoBrutoDeBitsPontoA) {
-    if ((rand() % 100) == ...) // fazer a probabilidade do erro
-      fluxoBrutoBitsPontoB += fluxoBrutoBitsPontoA; // BITS!!!
-    else // ERRO! INVERTER (usa condicao ternaria)
-        fluxoBrutoBitsPontoB==0) ?
-        fluxoBrutoBitsPontoA=fluxoBrutoBitsPontoB++ :
-        fluxoBrutoBitsPontoA=fluxoBrutoBitsPontoB--;
-  }
-  */
 
 
 //////////////////////////////////////////////////////////////////
@@ -639,7 +699,7 @@ void CamadaEnlaceDadosReceptoraControleDeErro(int quadro[], int size, int tipoDe
         CamadaEnlaceDadosReceptoraControleDeErroCRC(quadro, size);
         break;
       case 3: // codigo de hamming
-//        CamadaEnlaceDadosReceptoraControleDeErroCodigoDeHamming(quadro, size);
+        CamadaEnlaceDadosReceptoraControleDeErroCodigoDeHamming(quadro, size);
         break;
   }
 }
@@ -793,34 +853,86 @@ void CamadaEnlaceDadosReceptoraControleDeErroCRC(int quadro_extendido[], int siz
     CamadaEnlaceDadosReceptoraEnquadramento(quadro, size);
 }
 
-/*
+
 /////////////////////////////////////////////////////////////////////////////////
 //      Metodo CamadaEnlaceDadosReceptoraControleDeErroCodigoDeHamming        //
 ///////////////////////////////////////////////////////////////////////////////
-void CamadaEnlaceDadosReceptoraControleDeErroCodigoDeHamming(int quadro[x], int size) {
-  std::vector<int> avec;
-  for (auto i = 0; i < x; i++) {
-    avec.push_back(quadro[i]);
-    auto m3 = 0, m5 = 0, m6 = 0, m7 = 0, m9 = 0, m10 = 0, m11 = 0, m12 = 0;
-    auto soma = 0;
-    for (auto i = 0; i < 8; i += 8) {
-      m3 = (avec[i + 0] + avec[i + 1]) == avec[i + 2] ? 0 : 1;
-      m5 = (avec[i + 3] + avec[i + 0]) == avec[i + 4] ? 0 : 1;
-      m6 = (avec[i + 3] + avec[i + 1]) == avec[i + 5] ? 0 : 1;
-      m7 = (avec[i + 3] + avec[i + 1] + avec[i + 0]) == avec[i + 6] ? 0 : 1;
-      m9 = (avec[i + 7] + avec[i + 0]) == avec[i + 8] ? 0 : 1;
-      m10 = (avec[i + 7] + avec[i + 1]) == avec[i + 9] ? 0 : 1;
-      m11 = (avec[i + 7] + avec[i + 1] + avec[i + 0]) == avec[i + 10] ? 0 : 1;
-      m12 = (avec[i + 7] + avec[i + 3]) == avec[i + 11] ? 0 : 1;
-      soma = m3 + m5 + m7 + m9 + m10 + m11 + m12;
+void CamadaEnlaceDadosReceptoraControleDeErroCodigoDeHamming(int quadro[], int size) {
 
-      if (soma != 8) {
-        throw std::runtime_error(
-            "a verificação do código de hamming detectou erro na transmissão");
-      }
-    }
+    cout << "size receptora: " << size << endl;
+  std::vector<int> avec;
+  for (auto i = 0; i < size; i++) {
+      avec.push_back(quadro[i]);
   }
 
-  std::cout << "não houve erro com o código de hamming";
+    for (auto i = 0; i < size; i += 31) {
+//    for (auto i = 0; i < 8; i += 8) {
+        auto m3 = 0, m5 = 0, m6 = 0, m7 = 0, m9 = 0, m10 = 0, m11 = 0, m12 = 0,
+                m13 = 0, m14 = 0, m15 = 0, m17 = 0, m18 = 0, m19 = 0, m20 = 0, m21 = 0,
+                m22 = 0, m23 = 0, m24 = 0, m25 = 0, m26 = 0, m27 = 0, m28 = 0, m29 = 0,
+                m30 = 0, m31 = 0;
+        auto soma = 0;
+
+      m3 = (avec[i + 0] ^ avec[i + 1]) == avec[i + 2] ? 0 : 1;
+      m5 = (avec[i + 3] ^ avec[i + 0]) == avec[i + 4] ? 0 : 1;
+      m6 = (avec[i + 3] ^ avec[i + 1]) == avec[i + 5] ? 0 : 1;
+      m7 = (avec[i + 3] ^ avec[i + 1] ^ avec[i + 0]) == avec[i + 6] ? 0 : 1;
+      m9 = (avec[i + 7] ^ avec[i + 0]) == avec[i + 8] ? 0 : 1;
+      m10 = (avec[i + 7] ^ avec[i + 1]) == avec[i + 9] ? 0 : 1;
+      m11 = (avec[i + 7] ^ avec[i + 1] ^ avec[i + 0]) == avec[i + 10] ? 0 : 1;
+      m12 = (avec[i + 7] ^ avec[i + 3]) == avec[i + 11] ? 0 : 1;
+      m13 = (avec[i + 7] ^ avec[i + 3] ^ avec[i + 0]) == avec[i + 12] ? 0 : 1;
+      m14 = (avec[i + 7] ^ avec[i + 3]) == avec[i + 13] ? 0 : 1;
+      m15 = (avec[i + 7] ^ avec[i + 3]) == avec[i + 14] ? 0 : 1;
+      m17 = (avec[i + 15] ^ avec[i + 0]) == avec[i + 16] ? 0 : 1;
+      m18 = (avec[i + 15] ^ avec[i + 1]) == avec[i + 17] ? 0 : 1;
+      m19 = (avec[i + 15] ^ avec[i + 1] ^ avec[i + 0]) == avec[i + 18] ? 0 : 1;
+      m20 = (avec[i + 15] ^ avec[i + 3]) == avec[i + 19] ? 0 : 1;
+      m21 = (avec[i + 15] ^ avec[i + 3] ^ avec[i + 0]) == avec[i + 20] ? 0 : 1;
+      m22 = (avec[i + 15] ^ avec[i + 3] ^ avec[i + 1]) == avec[i + 21] ? 0 : 1;
+      m23 = (avec[i + 15] ^ avec[i + 3] ^ avec[i + 0] ^ avec[i + 1]) ==
+                    avec[i + 22]
+                ? 0
+                : 1;
+
+        m24 = (avec[i + 15] ^ avec[i + 7]) == avec[i + 23] ? 0 : 1;
+      m25 = (avec[i + 15] ^ avec[i + 7] ^ avec[i + 0]) == avec[i + 24] ? 0 : 1;
+      m26 = (avec[i + 15] ^ avec[i + 7] ^ avec[i + 1]) == avec[i + 25] ? 0 : 1;
+      m27 = (avec[i + 15] ^ avec[i + 7] ^ avec[i + 1] ^ avec[i + 0]) ==
+                    avec[i + 26]
+                ? 0
+                : 1;
+
+        m28 = (avec[i + 15] ^ avec[i + 7] ^ avec[i + 3]) == avec[i + 27] ? 0 : 1;
+      m29 = (avec[i + 15] ^ avec[i + 7] ^ avec[i + 3] ^ avec[i + 0]) ==
+                    avec[i + 28]
+                ? 0
+                : 1;
+
+        m30 = (avec[i + 15] ^ avec[i + 7] ^ avec[i + 3] ^ avec[i + 1]) ==
+                    avec[i + 29]
+                ? 0
+                : 1;
+
+        m31 = (avec[i + 15] ^ avec[i + 7] ^ avec[i + 3] ^ avec[i + 1] ^
+             avec[i + 0]) == avec[i + 30]
+                ? 0
+                : 1;
+
+        soma = m3 + m5 + m7 + m9 + m10 + m11 + m12 + m13 + m14 + m15 + m17 + m18 +
+             m19 + m20 + m21 + m22 + m23 + m24 + m25 + m26 + m27 + m28 + m29 +
+             m30 + m31;
+
+
+      if (soma != 26) {
+//        throw std::runtime_error(
+            cout << "a verificação do código de hamming detectou erro na transmissão" << endl;
+
+      }
+
+    }
+    cout << "não houve erro com o código de hamming" << endl;
+
+    // Chama a proxima camada
+    CamadaEnlaceDadosReceptoraEnquadramento(quadro, size);
 }
-*/

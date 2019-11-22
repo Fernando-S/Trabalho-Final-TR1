@@ -9,6 +9,8 @@ using namespace std;
 void CamadaFisicaTransmissora (int quadro[], int size, int tipoDeControleDeErro) {
 	int tipoDeCodificacao; //alterar de acordo o teste
 
+	cout << "size: " << size << endl;
+
     cout << "\nPor favor, informe qual codificacao deseja (1 - Binaria, 2 - Manchester, 3 Manchester Diferencial: ";
     cin >> tipoDeCodificacao;
 
@@ -22,8 +24,7 @@ void CamadaFisicaTransmissora (int quadro[], int size, int tipoDeControleDeErro)
 	cout << "O quadro enviado apos traducao para bits eh: ";
     for (int m = 0; m < size; m++){
         cout << quadro[m];
-    }  //  o for comentado testa a saida do ponteiro
-
+    }
     cout << endl;
 
 	switch (tipoDeCodificacao) {

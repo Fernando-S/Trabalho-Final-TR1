@@ -26,7 +26,7 @@ void CamadaEnlaceDadosReceptoraControleDeErroBitDeParidadePar(int quadro[], int 
 
 int CamadaEnlaceDadosReceptoraControleDeErroBitDeParidadeImpar(int quadro[],int size);
 
-//void CamadaEnlaceDadosTransmissoraControleDeErroCodigoDeHamming (int quadro[], int size);
+void CamadaEnlaceDadosTransmissoraControleDeErroCodigoDeHamming (int quadro[], int size);
 
 void CamadaEnlaceDadosReceptora (int quadro [], int size, int tipoDeControleDeErro);
 
@@ -34,13 +34,9 @@ void CamadaDeEnlaceTransmissoraEnquadramentoInsercaoDeBytes (int quadro [], int 
 
 void CamadaDeEnlaceTransmissoraEnquadramentoInsercaoDeBits (int quadro [], int size);
 
-//void CamadaEnlaceDadosTransmissoraEnquadramentoViolacaoDaCamadaFisica (int quadro[]);
-
 void CamadaEnlaceDadosReceptoraEnquadramentoInsercaoDeBytes (int quadro [], int size);
 
 void CamadaEnlaceDadosReceptoraEnquadramentoInsercaoDeBits (int quadro[], int size);
-
-//void CamadaEnlaceDadosReceptoraEnquadramentoViolacaoDaCamadaFisica(int quadro[]);
 
 void CamadaEnlaceDadosTransmissoraControleDeErro (int quadro[], int size);
 
@@ -70,6 +66,6 @@ void CamadaEnlaceDadosTransmissoraControleDeErroCRC (int quadro[], int size);
 
 void CamadaEnlaceDadosReceptoraControleDeErroCRC (int quadro_extentido[], int size);
 
- //void CamadaEnlaceDadosReceptoraControleDeErroCodigoDeHamming (int quadro[], int size);
+void CamadaEnlaceDadosReceptoraControleDeErroCodigoDeHamming (int quadro[], int size);
 
 #endif  // CAMADA_ENLACE_H
